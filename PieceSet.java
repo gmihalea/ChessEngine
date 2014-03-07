@@ -5,7 +5,7 @@ public class PieceSet {
 	private ArrayList<Piece> available = null;
 	private ArrayList<Piece> captured = null;
 	
-	public PieceSet(int color) {
+	public PieceSet() {
 		this.available = new ArrayList<Piece>(16);
 		this.captured = new ArrayList<Piece>(16);
 	}
