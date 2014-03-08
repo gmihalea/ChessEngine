@@ -1,21 +1,21 @@
 
 public class Square {
 	
-	private int row;
-	private int column;
+	private int letter;
+	private int number;
 	private Piece piece;
 	
-	public Square(int row, int column) {
-		this.row = row;
-		this.column = column;
+	public Square(int letter, int number) {
+		this.letter = letter;
+		this.number = number;
 	}
 	
-	public int getRow() {
-		return this.row;
+	public int getLetter() {
+		return this.letter;
 	}
 	
-	public int getColumn() {
-		return this.column;
+	public int getNumber() {
+		return this.number;
 	}
 	
 	public Piece getPiece() {
