@@ -8,7 +8,7 @@ public class PieceType {
 	public static final int BISHOP = 4;
 	public static final int KNIGHT = 5;
 
-	public int getType(Piece piece) {
+	public static int getType(Piece piece) {
 		if(piece instanceof Pawn)
 			return PieceType.PAWN;
 		if(piece instanceof King)
