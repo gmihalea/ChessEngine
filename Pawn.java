@@ -4,7 +4,7 @@ public class Pawn extends Piece {
 	
 	private boolean moved;
 
-	public boolean isMoved() {
+	public boolean hasMoved() {
 		return moved;
 	}
 

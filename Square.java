@@ -3,7 +3,7 @@ public class Square {
 	
 	private int row;
 	private int column;
-	private Piece piece = null;
+	private Piece piece;
 	
 	public Square(int row, int column) {
 		this.row = row;

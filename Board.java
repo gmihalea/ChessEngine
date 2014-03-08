@@ -16,14 +16,18 @@ public class Board {
 	
 	public static void initialize() {
 		Board.board = new Square[9][9];
-		Board.blackSet = new PieceSet();
-		Board.whiteSet = new PieceSet();
+		Board.blackSet = new PieceSet(PieceColor.BLACK);
+		Board.whiteSet = new PieceSet(PieceColor.WHITE);
 		
 		for(int row = A; row <= H; row++) {
 			for(int column = 1; column <= 8; column++) {
 				Board.board[row][column] = new Square(row, column);
 			}
 		}
+	}
+	
+	public static Square translate(int letter, int number) {
+		return Board.board[9 - number][letter];
 	}
 	
 	private static void placePiece(Piece piece, Square square) {
