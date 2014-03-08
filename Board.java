@@ -10,51 +10,49 @@ public class Board {
 	public static final int G = 7;
 	public static final int H = 8;
 	
-	private Square[][] board = null;
-	private PieceSet blackSet = null;
-	private PieceSet whiteSet = null;
+	private static Square[][] board = null;
+	private static PieceSet blackSet = null;
+	private static PieceSet whiteSet = null;
 	
-	public Board() {
-		this.board = new Square[9][9];
-		this.blackSet = new PieceSet();
-		this.whiteSet = new PieceSet();
-	}
-	
-	private void initializeBoard() {
+	public static void initialize() {
+		Board.board = new Square[9][9];
+		Board.blackSet = new PieceSet();
+		Board.whiteSet = new PieceSet();
+		
 		for(int row = A; row <= H; row++) {
 			for(int column = 1; column <= 8; column++) {
-				this.board[row][column] = new Square(row, column);
+				Board.board[row][column] = new Square(row, column);
 			}
 		}
 	}
 	
-	private void placePiece(Piece piece, Square square) {
+	private static void placePiece(Piece piece, Square square) {
 		piece.setPosition(square);
 		square.setPiece(piece);
 	}
 	
-	private void placeSets() {
+	private static void placeSets() {
 		Piece piece;
 		
 		for(int i = A; i <= H; i++) {
-			piece = new Pawn(this.board[2][i], PieceColor.BLACK);
-			this.placePiece(piece, this.board[2][i]);
+			piece = new Pawn(Board.board[2][i], PieceColor.BLACK);
+			Board.placePiece(piece, Board.board[2][i]);
 		}
 	}
 	
-	public Square[][] getBoard() {
-		return this.board;
+	public static Square[][] get() {
+		return Board.board;
 	}
 	
-	public void setBoard(Square[][] board) {
-		this.board = board;
+	public static void set(Square[][] board) {
+		Board.board = board;
 	}
 	
-	public PieceSet getBlackSet() {
-		return this.blackSet;
+	public static PieceSet getBlackSet() {
+		return Board.blackSet;
 	}
 	
-	public PieceSet getWhiteSet() {
-		return this.whiteSet;
+	public static PieceSet getWhiteSet() {
+		return Board.whiteSet;
 	}
 }

@@ -7,22 +7,9 @@ public class Knight extends Piece {
 	}
 
 	@Override
-	public ArrayList<Square> getAvailableSquares() {
+	public ArrayList<Square> getValidSquares() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public ArrayList<Square> getAtackSquares() {
-		return null;
-	}
-
-	@Override
-	public ArrayList<Square> getCaptureFreeSquares() {
-		return null;
-	}
-
-	@Override
-	public boolean canBeCaptured() {
-		return false;
-	}
 }
