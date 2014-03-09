@@ -8,8 +8,23 @@ public class Knight extends Piece {
 
 	@Override
 	public ArrayList<Square> getValidSquares() {
-		// TODO Auto-generated method stub
-		return null;
+		int row = this.getPosition().getNumber();
+		int column = this.getPosition().getLetter();
+		int oponentColor = (this.getColor() == PieceColor.WHITE) ? PieceColor.BLACK : PieceColor.WHITE; 
+		Square intermediate;
+		ArrayList<Square> result = new ArrayList<Square>();
+		
+		for(int i = -2; i <= 2; i++) { 
+			for(int j = -2; j <= 2; j++) { 
+				if(Math.abs(i) != Math.abs(j) && i != 0 && j != 0) { 
+					intermediate = Board.translate(row + i, column + j);
+					if(intermediate.getPiece() == null || intermediate.getPiece().getColor() == oponentColor)
+						result.add(intermediate);
+				} 
+			} 
+		}
+		
+		return result;
 	}
 
 }
