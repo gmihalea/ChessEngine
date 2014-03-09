@@ -98,8 +98,8 @@ public class Board {
 				if ( checkedMoves.contains( Board.get()[i][j] ) ) sb.append(" * ");
 				else
 					sb.append(" " + Board.get()[i][j].toString() +" ");
-			}
 			sb.append("\n");
+		}
 		sb.deleteCharAt(sb.length()-1);
 		return sb.toString();
 	}
