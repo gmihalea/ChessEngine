@@ -71,8 +71,8 @@ public class Board {
 	 * @param color WHITE / BLACK
 	 * @param piece Queen / Pawn / Knight etc
 	 */
-	public static void addPiece(int color, Piece piece) {
-		if ( color == PieceColor.WHITE)
+	public static void addPiece(Piece piece) {
+		if ( piece.getColor() == PieceColor.WHITE)
 			Board.whiteSet.addPiece(piece);
 		else
 			Board.blackSet.addPiece(piece);
@@ -102,11 +102,6 @@ public class Board {
 			sb.append("\n");
 		}
 		sb.deleteCharAt(sb.length()-1);
-		
-		
-		
-		for ( Square p : checkedMoves )
-			System.out.println(p.getCoords());
 		return sb.toString();
 	}
 	
