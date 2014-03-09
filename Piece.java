@@ -37,10 +37,9 @@ public abstract class Piece {
 		return result;
 	}
 	
-	private static ArrayList<Square> checkDirection(Square square, int letter, int number, int opponentColor, int... opponents) {
+	private static boolean checkDirection(Square square, int letter, int number, int opponentColor, int... opponents) {
 		int pieceType;
 		Square intermediate;
-		ArrayList<Square> result = new ArrayList<Square>();
 		
 		intermediate = square;
 		while(Board.isSquareValid(intermediate.getLetter() + letter, intermediate.getNumber() + number)) {
@@ -50,7 +49,7 @@ public abstract class Piece {
 					pieceType = PieceType.getType(intermediate.getPiece());
 					for(int opponent : opponents) {
 						if(pieceType == opponent)
-							result.add(intermediate);
+							return true;
 						break;
 					}
 				}
@@ -58,13 +57,12 @@ public abstract class Piece {
 			}
 		}
 		
-		return result;
+		return false;
 	}
 
 	public static boolean canBeCaptured(Square square, int opponentColor) {
 		int number = square.getNumber();
 		int letter = square.getLetter();
-		int pieceType;
 		Square intermediate;
 		
 		//TODO: adauga pion
@@ -84,11 +82,11 @@ public abstract class Piece {
 					}
 					
 					if(i != j) {
-						if(!Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.BISHOP).isEmpty())
+						if(Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.BISHOP))
 							return true;
 					}
 					else {
-						if(!Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.ROOK).isEmpty())
+						if(Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.ROOK))
 							return true;
 					}
 				}
