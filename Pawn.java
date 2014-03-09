@@ -20,51 +20,36 @@ public class Pawn extends Piece {
 	public ArrayList<Square> getValidSquares() {
 		ArrayList<Square> result = new ArrayList<Square>();
 		int opponentColor = (this.getColor() == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
-		int row = this.getPosition().getNumber();
-		int column = this.getPosition().getLetter();
-		Square intermediate1, intermediate2;
+		int number = this.getPosition().getNumber();
+		int letter = this.getPosition().getLetter();
+		int howToMove1, howToMove2;
+		Square intermediate;
 		
-		//Daca nu a mai fost mutat si are doua casute goale deasupra
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(column,row + 1) : 
-			Board.translate(column, row - 1);
-		intermediate2 = this.getColor() == PieceColor.WHITE ? Board.translate(column, row + 2) : 
-			Board.translate(column, row - 2);
-	
-		if(!this.moved && intermediate1.getPiece() == null && intermediate2.getPiece() == null) {
-				result.add(intermediate1);
-				result.add(intermediate2);
+		howToMove1 = (this.getColor() == PieceColor.WHITE) ? number + 1 : number - 1;
+		for(int i = -1; i <= 1; i++) {
+			if(Board.isSquareValid(letter + i, howToMove1)) {
+				intermediate = Board.translate(letter + i, howToMove1);
+				//Merg o patratica inainte
+				if(i == 0) {
+					if(intermediate.getPiece() == null)
+						result.add(intermediate);
+				}
+				//Atac stanga - dreapta
+				else {
+					if(intermediate.getPiece() != null
+							&& intermediate.getPiece().getColor() == opponentColor)
+						result.add(intermediate);
+				}
 			}
-		else{
-			//Merge inainte
-			if(intermediate1.getPiece() == null )
-					result.add(intermediate1);
 		}
 		
-		//Daca e in extrema stanga cu albul - dreapta cu negrul
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(Letter.B, row + 1) : Board.translate(Letter.B, row - 1);
-		
-		if(column == Letter.A  &&
-				intermediate1.getPiece().getColor() == opponentColor) {
-				result.add(intermediate1);
+		//Daca nu a mai fost mutat si pot muta peste 2 patratele
+		howToMove2 = (this.getColor() == PieceColor.WHITE) ? number + 2 : number - 2;
+		if(!this.moved && Board.isSquareValid(letter, howToMove2)) {
+			intermediate = Board.translate(letter, howToMove2);
+			if(intermediate.getPiece() == null && result.contains(Board.translate(letter, howToMove1)))
+				result.add(intermediate);
 		}
-	
-		//Daca e in extrema	dreapta cu albul - stanga cu negrul
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(Letter.G, row + 1) : Board.translate(Letter.G, row - 1);
-		
-		if(column == Letter.H &&
-				intermediate1.getPiece().getColor() == opponentColor) {
-				result.add(intermediate1);
-		}
-				
-		//Daca e undeva intre extreme
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(column + 1, row + 1) : Board.translate(column - 1,row - 1) ;
-		
-		if(intermediate1.getPiece() == null || intermediate1.getPiece().getColor() == opponentColor)result.add(intermediate1);
-		
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(column - 1, row + 1): Board.translate(column + 1, row - 1) ;
-		
-		if(intermediate1.getPiece().getColor() == opponentColor )
-				result.add(intermediate1);
 		
 		return result;
 	}
