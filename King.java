@@ -28,7 +28,7 @@ public class King extends Piece {
 			for( int j = -1; j <= 1; j++)
 				if(!(i == 0 && j == 0)) {
 					if(Board.isSquareValid(column + i, row + j)){
-						intermediate = Board.get()[column + i][row + j];
+						intermediate = Board.translate(column + i, row + j);
 						if(intermediate.getPiece().getColor() == opponentColor || intermediate.getPiece() == null )
 							result.add(intermediate);
 					}	

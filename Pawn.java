@@ -25,10 +25,10 @@ public class Pawn extends Piece {
 		Square intermediate1, intermediate2;
 		
 		//Daca nu a mai fost mutat si are doua casute goale deasupra
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.get()[column][row + 1] : 
-			Board.get()[column][row - 1];
-		intermediate2 = this.getColor() == PieceColor.WHITE ? Board.get()[column][row + 2] : 
-			Board.get()[column][row - 2];
+		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(column,row + 1) : 
+			Board.translate(column, row - 1);
+		intermediate2 = this.getColor() == PieceColor.WHITE ? Board.translate(column, row + 2) : 
+			Board.translate(column, row - 2);
 	
 		if(!this.moved && intermediate1.getPiece() == null && intermediate2.getPiece() == null) {
 				result.add(intermediate1);
@@ -41,7 +41,7 @@ public class Pawn extends Piece {
 		}
 		
 		//Daca e in extrema stanga cu albul - dreapta cu negrul
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.get()[Letter.B][row + 1] : Board.get()[Letter.B][row - 1];
+		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(Letter.B, row + 1) : Board.translate(Letter.B, row - 1);
 		
 		if(column == Letter.A  &&
 				intermediate1.getPiece().getColor() == opponentColor) {
@@ -49,7 +49,7 @@ public class Pawn extends Piece {
 		}
 	
 		//Daca e in extrema	dreapta cu albul - stanga cu negrul
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.get()[Letter.G][row + 1] : Board.get()[Letter.G][row - 1];
+		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(Letter.G, row + 1) : Board.translate(Letter.G, row - 1);
 		
 		if(column == Letter.H &&
 				intermediate1.getPiece().getColor() == opponentColor) {
@@ -57,12 +57,12 @@ public class Pawn extends Piece {
 		}
 				
 		//Daca e undeva intre extreme
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.get()[column + 1][row + 1] : Board.get()[column - 1][row - 1] ;
+		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(column + 1, row + 1) : Board.translate(column - 1,row - 1) ;
 		
 		if(intermediate1.getPiece().getColor() == opponentColor)
 				result.add(intermediate1);
 		
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.get()[column - 1][row + 1]: Board.get()[column + 1][row - 1] ;
+		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(column - 1, row + 1): Board.translate(column + 1, row - 1) ;
 		
 		if(intermediate1.getPiece().getColor() == opponentColor )
 				result.add(intermediate1);

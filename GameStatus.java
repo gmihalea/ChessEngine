@@ -57,7 +57,7 @@ public class GameStatus {
 	}
 	
 	public static boolean isAnyChecked() {
-			return GameStatus.blackCheck || GameStatus.whiteCheck;
+		return GameStatus.blackCheck || GameStatus.whiteCheck;
 	}
 	
 	public static boolean isAnyCheckMated() {
