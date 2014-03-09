@@ -29,6 +29,21 @@ public class Game {
 		move.getStartSquare().setPiece(null);
 		move.getEndSquare().getPiece().setPosition(move.getEndSquare());
 		
+		switch(PieceType.getType(move.getEndSquare().getPiece())) {
+		
+			case PieceType.PAWN:
+				((Pawn)move.getEndSquare().getPiece()).setMoved(true);
+				break;
+				
+			case PieceType.KING:
+				((King)move.getEndSquare().getPiece()).setMoved(true);
+				break;
+				
+			case PieceType.ROOK:
+				((Rook)move.getEndSquare().getPiece()).setMoved(true);
+				break;
+		}
+		
 		Game.changeTurn();
 	}
 	
