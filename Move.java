@@ -16,4 +16,9 @@ public class Move {
 	public Square getEndSquare() {
 		return this.endSquare;
 	}
+	
+	@Override
+	public String toString() {
+		return startSquare.getCoords() + endSquare.getCoords();
+	}
 }

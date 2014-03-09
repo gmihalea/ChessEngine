@@ -31,27 +31,31 @@ public class Square {
 		this.piece = piece;
 	}
 	
+	public String getCoords() {
+		return Letter.toString(this.letter) + this.number;
+	}
+	
 	/** Returns a string interpretation of the piece on this square */
 	public String toString() {
-		if ( this.piece == null ) return "❤"; // ❤
+		if ( this.piece == null ) return "â�¤"; // â�¤
 		
 		// Return white pieces
 		if ( this.piece.getColor() == PieceColor.WHITE) {
-				 if(this.piece instanceof Pawn)		return "♙";
-			else if(this.piece instanceof Bishop)	return "♗";
-			else if(this.piece instanceof Knight)	return "♘";
-			else if(this.piece instanceof Rook)		return "♖";
-			else if(this.piece instanceof King)		return "♔";
-			else if(this.piece instanceof Queen)	return "♕";
+				 if(this.piece instanceof Pawn)		return "â™™";
+			else if(this.piece instanceof Bishop)	return "â™—";
+			else if(this.piece instanceof Knight)	return "â™˜";
+			else if(this.piece instanceof Rook)		return "â™–";
+			else if(this.piece instanceof King)		return "â™”";
+			else if(this.piece instanceof Queen)	return "â™•";
 		}
 		
 		// Return black pieces
-			 	  if( this.piece instanceof Pawn )	return "♟";
-			 else if( this.piece instanceof Bishop )return "♝";
-			 else if( this.piece instanceof Knight )return "♞";
-			 else if( this.piece instanceof Rook )	return "♜";
-			 else if( this.piece instanceof King )	return "♚";
-			 else if( this.piece instanceof Queen )	return "♛";
+			 	  if( this.piece instanceof Pawn )	return "â™Ÿ";
+			 else if( this.piece instanceof Bishop )return "â™�";
+			 else if( this.piece instanceof Knight )return "â™ž";
+			 else if( this.piece instanceof Rook )	return "â™œ";
+			 else if( this.piece instanceof King )	return "â™š";
+			 else if( this.piece instanceof Queen )	return "â™›";
 		
 		// Program never reaches this far.
 		return "";
