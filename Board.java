@@ -25,7 +25,7 @@ public class Board {
 		Board.board = new Square[9][9];
 		for(int number = 1; number <= 8; number++ )
 			for(int letter = Letter.A; letter <= Letter.H; letter++)
-				Board.board[number][letter] = new Square( 9 - number , letter );
+				Board.board[number][letter] = new Square( letter , 9 - number );
 		Board.blackSet = new PieceSet();
 		Board.whiteSet = new PieceSet();
 	}
@@ -80,7 +80,6 @@ public class Board {
 	
 	
 	public static String printTable() {
-		
 		StringBuilder sb = new StringBuilder();
 		
 		for ( int i = 1 ; i <= 8 ; i++ ) {
@@ -95,13 +94,19 @@ public class Board {
 	public static String printTableShowMoves(ArrayList<Square> checkedMoves) {
 		StringBuilder sb = new StringBuilder();
 		for ( int i = 1 ; i <= 8 ; i++ ) {
-			for ( int j = 1 ; j <= 8 ; j++ ) 
-				if ( checkedMoves.contains(Board.get()[i][j]) ) sb.append(" * ");
+			for ( int j = 1 ; j <= 8 ; j++ ) {
+				if ( checkedMoves.contains( Board.get()[i][j] ) ) sb.append(" * ");
 				else
 					sb.append(" " + Board.get()[i][j].toString() +" ");
+			}
 			sb.append("\n");
 		}
 		sb.deleteCharAt(sb.length()-1);
+		
+		
+		
+		for ( Square p : checkedMoves )
+			System.out.println(p.getCoords());
 		return sb.toString();
 	}
 	

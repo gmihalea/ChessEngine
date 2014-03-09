@@ -59,8 +59,7 @@ public class Pawn extends Piece {
 		//Daca e undeva intre extreme
 		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(column + 1, row + 1) : Board.translate(column - 1,row - 1) ;
 		
-		if(intermediate1.getPiece().getColor() == opponentColor)
-				result.add(intermediate1);
+		if(intermediate1.getPiece() == null || intermediate1.getPiece().getColor() == opponentColor)result.add(intermediate1);
 		
 		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.translate(column - 1, row + 1): Board.translate(column + 1, row - 1) ;
 		
