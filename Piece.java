@@ -28,19 +28,19 @@ public abstract class Piece {
 	public ArrayList<Square> getCaptureFreeSquares() {
 		ArrayList<Square> result = new ArrayList<Square>();
 		ArrayList<Square> validSquares = this.getValidSquares();
+		int opponentColor = (this.color == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
 		
 		for(Square square : validSquares)
-			if(!Piece.canBeCaptured(square))
+			if(!Piece.canBeCaptured(square, opponentColor))
 				result.add(square);
 		
 		return result;
 	}
 
-	public static boolean canBeCaptured(Square square) {
+	public static boolean canBeCaptured(Square square, int opponentColor) {
 		int number = square.getNumber();
 		int letter = square.getLetter();
 		int pieceType;
-		int opponentColor = (square.getPiece().getColor() == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
 		Square intermediate;
 		
 		for(int i = number; i < 8; i++) {
