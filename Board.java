@@ -64,6 +64,9 @@ public class Board {
 		return Board.whiteSet;
 	}
 	
+	public static boolean isSquareValid(int letter, int number) {
+		return ( letter > 0 && letter < 9 && number > 0 && number < 9);
+	}
 	
 	public static String printTable() {
 		
