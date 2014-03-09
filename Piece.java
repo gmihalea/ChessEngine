@@ -73,7 +73,7 @@ public abstract class Piece {
 			}
 		}
 		
-		for(int i = letter; i > Board.A; i--) {
+		for(int i = letter; i > Letter.A; i--) {
 			intermediate = Board.translate(i - 1, number);
 			if(intermediate.getPiece() != null) {
 				if(intermediate.getPiece().getColor() == opponentColor) {
@@ -88,7 +88,7 @@ public abstract class Piece {
 			}
 		}
 		
-		for(int i = letter; i < Board.H; i++) {
+		for(int i = letter; i < Letter.H; i++) {
 			intermediate = Board.translate(i + 1, number);
 			if(intermediate.getPiece() != null) {
 				if(intermediate.getPiece().getColor() == opponentColor) {
@@ -103,7 +103,7 @@ public abstract class Piece {
 			}
 		}
 	
-		for(int i = letter, j = number; i > Board.A && j > 1; i--, j--) {
+		for(int i = letter, j = number; i > Letter.A && j > 1; i--, j--) {
 			intermediate = Board.translate(i - 1, j - 1);
 			if(intermediate.getPiece() != null) {
 				if(intermediate.getPiece().getColor() == opponentColor) {
@@ -119,7 +119,7 @@ public abstract class Piece {
 			}
 		}
 		
-		for(int i = letter, j = number; i > Board.A && j < 8; i--, j++) {
+		for(int i = letter, j = number; i > Letter.A && j < 8; i--, j++) {
 			intermediate = Board.translate(i - 1, j + 1);
 			if(intermediate.getPiece() != null) {
 				if(intermediate.getPiece().getColor() == opponentColor) {
@@ -135,7 +135,7 @@ public abstract class Piece {
 			}
 		}
 		
-		for(int i = letter, j = number; i < Board.H && j < 8; i++, j++) {
+		for(int i = letter, j = number; i < Letter.H && j < 8; i++, j++) {
 			intermediate = Board.translate(i + 1, j + 1);
 			if(intermediate.getPiece() != null) {
 				if(intermediate.getPiece().getColor() == opponentColor) {
@@ -151,7 +151,7 @@ public abstract class Piece {
 			}
 		}
 		
-		for(int i = letter, j = number; i < Board.H && j > 1; i++, j--) {
+		for(int i = letter, j = number; i < Letter.H && j > 1; i++, j--) {
 			intermediate = Board.translate(i + 1, j - 1);
 			if(intermediate.getPiece() != null) {
 				if(intermediate.getPiece().getColor() == opponentColor) {

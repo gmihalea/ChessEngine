@@ -12,18 +12,18 @@ public class PieceSet {
 		this.available = new ArrayList<Piece>(PieceSet.NO_OF_PIECES); 
 		this.captured = new ArrayList<Piece>(PieceSet.NO_OF_PIECES);
 		
-		for (int letter = Board.A; letter <= Board.H; letter++)
+		for (int letter = Letter.A; letter <= Letter.H; letter++)
 			this.available.add(new Pawn(Board.translate(letter, rowNumber), color)); 
 		
 		rowNumber = (color == PieceColor.WHITE) ? 1 : 8;
-		this.available.add(new Rook (Board.translate(Board.A, rowNumber), color)); 	
-		this.available.add(new Rook(Board.translate(Board.H, rowNumber), color)); 
-		this.available.add(new Bishop(Board.translate(Board.B, rowNumber), color)); 
-		this.available.add(new Bishop(Board.translate(Board.G, rowNumber), color));
-		this.available.add(new Knight(Board.translate(Board.C, rowNumber), color)); 
-		this.available.add(new Knight(Board.translate(Board.F, rowNumber), color)); 
-		this.available.add(new Queen(Board.translate(Board.D, rowNumber), color)); 
-		this.available.add(new King(Board.translate(Board.E, rowNumber), color));
+		this.available.add(new Rook (Board.translate(Letter.A, rowNumber), color)); 	
+		this.available.add(new Rook(Board.translate(Letter.H, rowNumber), color)); 
+		this.available.add(new Bishop(Board.translate(Letter.B, rowNumber), color)); 
+		this.available.add(new Bishop(Board.translate(Letter.G, rowNumber), color));
+		this.available.add(new Knight(Board.translate(Letter.C, rowNumber), color)); 
+		this.available.add(new Knight(Board.translate(Letter.F, rowNumber), color)); 
+		this.available.add(new Queen(Board.translate(Letter.D, rowNumber), color)); 
+		this.available.add(new King(Board.translate(Letter.E, rowNumber), color));
 	}
 	
 	public ArrayList<Piece> getAvailablePieces() {
