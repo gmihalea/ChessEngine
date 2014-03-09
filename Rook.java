@@ -58,7 +58,7 @@ public class Rook extends Piece {
 		 * Checks availability sideways to left
 		 */
 		
-		for(int i=column; i>Board.A; i--) {
+		for(int i=column; i>Letter.A; i--) {
 			intermediate = Board.translate(i-1, row);
 			if(intermediate.getPiece() == null) {
 				result.add(intermediate);
@@ -73,7 +73,7 @@ public class Rook extends Piece {
 		 * Checks availability sideways to right
 		 */
 		
-		for(int i=column; i<Board.H; i++) {
+		for(int i=column; i<Letter.H; i++) {
 			intermediate = Board.translate(i+1, row);
 			if(intermediate.getPiece() == null) {
 				result.add(intermediate);

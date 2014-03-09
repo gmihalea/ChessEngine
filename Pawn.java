@@ -41,17 +41,17 @@ public class Pawn extends Piece {
 		}
 		
 		//Daca e in extrema stanga cu albul - dreapta cu negrul
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.get()[Board.B][row + 1] : Board.get()[Board.B][row - 1];
+		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.get()[Letter.B][row + 1] : Board.get()[Letter.B][row - 1];
 		
-		if(column == Board.A  &&
+		if(column == Letter.A  &&
 				intermediate1.getPiece().getColor() == opponentColor) {
 				result.add(intermediate1);
 		}
 	
 		//Daca e in extrema	dreapta cu albul - stanga cu negrul
-		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.get()[Board.G][row + 1] : Board.get()[Board.G][row - 1];
+		intermediate1 = this.getColor() == PieceColor.WHITE ? Board.get()[Letter.G][row + 1] : Board.get()[Letter.G][row - 1];
 		
-		if(column == Board.H &&
+		if(column == Letter.H &&
 				intermediate1.getPiece().getColor() == opponentColor) {
 				result.add(intermediate1);
 		}

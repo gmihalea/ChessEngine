@@ -1,15 +1,6 @@
 
 public class Board {
 	
-	public static final int A = 1;
-	public static final int B = 2;
-	public static final int C = 3;
-	public static final int D = 4;
-	public static final int E = 5;
-	public static final int F = 6;
-	public static final int G = 7;
-	public static final int H = 8;
-	
 	private static Square[][] board = null;
 	private static PieceSet blackSet = null;
 	private static PieceSet whiteSet = null;
@@ -24,7 +15,7 @@ public class Board {
 		Board.board = new Square[9][9];
 		
 		for(int number = 1; number <= 8; number++ )
-			for(int letter = A; letter <= H; letter++)
+			for(int letter = Letter.A; letter <= Letter.H; letter++)
 				Board.board[number][letter] = new Square( 9 - number , letter );
 		Board.placePieces();
 	}

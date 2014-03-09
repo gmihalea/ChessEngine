@@ -48,7 +48,7 @@ public class Queen extends Piece {
 		 * Checks availability sideways to left
 		 */
 		
-		for(int i=column; i>Board.A; i--) {
+		for(int i=column; i>Letter.A; i--) {
 			intermediate = Board.translate(i-1, row);
 			if(intermediate.getPiece() == null) {
 				result.add(intermediate);
@@ -63,7 +63,7 @@ public class Queen extends Piece {
 		 * Checks availability sideways to right
 		 */
 		
-		for(int i=column; i<Board.H; i++) {
+		for(int i=column; i<Letter.H; i++) {
 			intermediate = Board.translate(i+1, row);
 			if(intermediate.getPiece() == null) {
 				result.add(intermediate);
@@ -78,7 +78,7 @@ public class Queen extends Piece {
 		 * Checks availability diagonally left-down
 		 */
 		
-		for(int i=column, j=row; i>Board.A && j>1; i--, j--) {
+		for(int i=column, j=row; i>Letter.A && j>1; i--, j--) {
 			intermediate = Board.translate(i-1, j-1);
 			if(intermediate.getPiece() == null) {
 				result.add(intermediate);
@@ -93,7 +93,7 @@ public class Queen extends Piece {
 		 * Checks availability diagonally left-up;
 		 */
 		
-		for(int i=column, j=row; i>Board.A && j<8; i--, j++) {
+		for(int i=column, j=row; i>Letter.A && j<8; i--, j++) {
 			intermediate = Board.translate(i-1, j+1);
 			if(intermediate.getPiece() == null) {
 				result.add(intermediate);
@@ -108,7 +108,7 @@ public class Queen extends Piece {
 		 * Checks availability diagonally right-up;
 		 */
 		
-		for(int i=column, j=row; i<Board.H && j<8; i++, j++) {
+		for(int i=column, j=row; i<Letter.H && j<8; i++, j++) {
 			intermediate = Board.translate(i+1, j+1);
 			if(intermediate.getPiece() == null) {
 				result.add(intermediate);
@@ -123,7 +123,7 @@ public class Queen extends Piece {
 		 * Checks availability diagonally right-down;
 		 */
 		
-		for(int i=column, j=row; i<Board.H && j>1; i++, j--) {
+		for(int i=column, j=row; i<Letter.H && j>1; i++, j--) {
 			intermediate = Board.translate(i+1, j-1);
 			if(intermediate.getPiece() == null) {
 				result.add(intermediate);
