@@ -19,6 +19,6 @@ public class Move {
 	
 	@Override
 	public String toString() {
-		return startSquare.getCoords() + endSquare.getCoords();
+		return (startSquare.getCoords() + endSquare.getCoords()).toLowerCase();
 	}
 }
