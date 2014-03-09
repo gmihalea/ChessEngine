@@ -29,7 +29,7 @@ public class King extends Piece {
 				if(!(i == 0 && j == 0)) {
 					if(Board.isSquareValid(column + i, row + j)){
 						intermediate = Board.translate(column + i, row + j);
-						if(intermediate.getPiece().getColor() == opponentColor || intermediate.getPiece() == null )
+						if(intermediate.getPiece() == null || intermediate.getPiece().getColor() == opponentColor)
 							result.add(intermediate);
 					}	
 				}
