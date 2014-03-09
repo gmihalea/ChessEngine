@@ -95,6 +95,7 @@ public class Board {
 		StringBuilder sb = new StringBuilder();
 		for ( int i = 1 ; i <= 8 ; i++ ) {
 			for ( int j = 1 ; j <= 8 ; j++ ) {
+				System.out.println("Penis!");
 				if ( checkedMoves.contains( Board.get()[i][j] ) ) sb.append(" * ");
 				else
 					sb.append(" " + Board.get()[i][j].toString() +" ");
