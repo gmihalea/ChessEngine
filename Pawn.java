@@ -18,7 +18,6 @@ public class Pawn extends Piece {
 
 	@Override
 	public ArrayList<Square> getValidSquares() {
-		//TODO promovare !!
 		ArrayList<Square> result = new ArrayList<Square>();
 		int opponentColor = (this.getColor() == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
 		int row = this.getPosition().getNumber();
