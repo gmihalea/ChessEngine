@@ -43,8 +43,8 @@ public abstract class Piece {
 		ArrayList<Square> result = new ArrayList<Square>();
 		
 		intermediate = square;
-		while(Board.isSquareValid(square.getLetter() + letter, square.getNumber() + number)) {
-			intermediate = Board.translate(square.getLetter() + letter, square.getNumber() + number);
+		while(Board.isSquareValid(intermediate.getLetter() + letter, intermediate.getNumber() + number)) {
+			intermediate = Board.translate(intermediate.getLetter() + letter, intermediate.getNumber() + number);
 			if(intermediate.getPiece() != null) {
 				if(intermediate.getPiece().getColor() == opponentColor) {
 					pieceType = PieceType.getType(intermediate.getPiece());
@@ -84,11 +84,11 @@ public abstract class Piece {
 					}
 					
 					if(i != j) {
-						if(!Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.ROOK).isEmpty())
+						if(!Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.BISHOP).isEmpty())
 							return true;
 					}
 					else {
-						if(!Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.BISHOP).isEmpty())
+						if(!Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.ROOK).isEmpty())
 							return true;
 					}
 				}
