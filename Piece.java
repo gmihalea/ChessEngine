@@ -43,11 +43,6 @@ public abstract class Piece {
 		int opponentColor = (square.getPiece().getColor() == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
 		Square intermediate;
 		
-		// TODO: add horse
-		
-		/*
-		 * Checks availability upwards
-		 */
 		for(int i = number; i < 8; i++) {
 			intermediate = Board.translate(letter, i + 1);
 			if(intermediate.getPiece() != null) {
@@ -63,9 +58,6 @@ public abstract class Piece {
 			}
 		}
 		
-		/*
-		 * Checks availability downwards
-		 */
 		for(int i = number; i > 1; i--) {
 			intermediate = Board.translate(letter, i - 1);
 			if(intermediate.getPiece() != null) {
@@ -81,9 +73,6 @@ public abstract class Piece {
 			}
 		}
 		
-		/*
-		 * Checks availability sideways to left
-		 */
 		for(int i = letter; i > Board.A; i--) {
 			intermediate = Board.translate(i - 1, number);
 			if(intermediate.getPiece() != null) {
@@ -99,9 +88,6 @@ public abstract class Piece {
 			}
 		}
 		
-		/*
-		 * Checks availability sideways to right
-		 */
 		for(int i = letter; i < Board.H; i++) {
 			intermediate = Board.translate(i + 1, number);
 			if(intermediate.getPiece() != null) {
@@ -117,9 +103,6 @@ public abstract class Piece {
 			}
 		}
 	
-		/*
-		 * Checks availability diagonally left-down
-		 */
 		for(int i = letter, j = number; i > Board.A && j > 1; i--, j--) {
 			intermediate = Board.translate(i - 1, j - 1);
 			if(intermediate.getPiece() != null) {
@@ -136,9 +119,6 @@ public abstract class Piece {
 			}
 		}
 		
-		/*
-		 * Checks availability diagonally left-up
-		 */
 		for(int i = letter, j = number; i > Board.A && j < 8; i--, j++) {
 			intermediate = Board.translate(i - 1, j + 1);
 			if(intermediate.getPiece() != null) {
@@ -155,9 +135,6 @@ public abstract class Piece {
 			}
 		}
 		
-		/*
-		 * Checks availability diagonally right-up
-		 */
 		for(int i = letter, j = number; i < Board.H && j < 8; i++, j++) {
 			intermediate = Board.translate(i + 1, j + 1);
 			if(intermediate.getPiece() != null) {
@@ -174,9 +151,6 @@ public abstract class Piece {
 			}
 		}
 		
-		/*
-		 * Checks availability diagonally right-down
-		 */
 		for(int i = letter, j = number; i < Board.H && j > 1; i++, j--) {
 			intermediate = Board.translate(i + 1, j - 1);
 			if(intermediate.getPiece() != null) {
@@ -193,7 +167,6 @@ public abstract class Piece {
 			}
 		}
 		
-		// Knight
 		for(int i = -2; i <= 2; i++) {
 			for(int j = -2; j <= 2; j++) {
 				if(Math.abs(i) != Math.abs(j) && i != 0 && j != 0) {
