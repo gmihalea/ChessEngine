@@ -33,7 +33,7 @@ public class Square {
 	
 	/** Returns a string interpretation of the piece on this square */
 	public String toString() {
-		if ( this.piece == null ) return " ";
+		if ( this.piece == null ) return "❤"; // ❤
 		
 		// Return white pieces
 		if ( this.piece.getColor() == PieceColor.WHITE) {

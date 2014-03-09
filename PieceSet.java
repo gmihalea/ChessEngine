@@ -7,23 +7,34 @@ public class PieceSet {
 	private ArrayList<Piece> available = null;
 	private ArrayList<Piece> captured = null;
 	
-	public PieceSet(int color) {
-		int rowNumber = (color == PieceColor.WHITE) ? 2 : 7; 
+	/**Initializes this piece set ( with NO pieces ) */
+	public PieceSet() {
 		this.available = new ArrayList<Piece>(PieceSet.NO_OF_PIECES); 
 		this.captured = new ArrayList<Piece>(PieceSet.NO_OF_PIECES);
-		
+	}
+	
+	/**This set gets 16 pieces placed on the initial positions
+	 * <br> according to the specified color 
+	 * @param color PieceColor.WHITE or PieceColor.BLACK 
+	 */
+	public void setInitialPieces(int color) {
+		int rowNumber = (color == PieceColor.WHITE) ? 2 : 7; 
 		for (int letter = Letter.A; letter <= Letter.H; letter++)
 			this.available.add(new Pawn(Board.translate(letter, rowNumber), color)); 
 		
 		rowNumber = (color == PieceColor.WHITE) ? 1 : 8;
-		this.available.add(new Rook (Board.translate(Letter.A, rowNumber), color)); 	
-		this.available.add(new Rook(Board.translate(Letter.H, rowNumber), color)); 
-		this.available.add(new Bishop(Board.translate(Letter.B, rowNumber), color)); 
-		this.available.add(new Bishop(Board.translate(Letter.G, rowNumber), color));
-		this.available.add(new Knight(Board.translate(Letter.C, rowNumber), color)); 
-		this.available.add(new Knight(Board.translate(Letter.F, rowNumber), color)); 
-		this.available.add(new Queen(Board.translate(Letter.D, rowNumber), color)); 
-		this.available.add(new King(Board.translate(Letter.E, rowNumber), color));
+		this.addPiece(new Rook		(Board.translate(Letter.A, rowNumber), color)); 	
+		this.addPiece(new Rook		(Board.translate(Letter.H, rowNumber), color)); 
+		this.addPiece(new Bishop	(Board.translate(Letter.B, rowNumber), color)); 
+		this.addPiece(new Bishop	(Board.translate(Letter.G, rowNumber), color));
+		this.addPiece(new Knight	(Board.translate(Letter.C, rowNumber), color)); 
+		this.addPiece(new Knight	(Board.translate(Letter.F, rowNumber), color)); 
+		this.addPiece(new Queen		(Board.translate(Letter.D, rowNumber), color)); 
+		this.addPiece(new King		(Board.translate(Letter.E, rowNumber), color));
+	}
+	
+	public void addPiece(Piece piece) {
+		this.available.add(piece);
 	}
 	
 	public ArrayList<Piece> getAvailablePieces() {

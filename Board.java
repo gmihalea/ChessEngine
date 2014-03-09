@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 public class Board {
 	
@@ -12,17 +14,26 @@ public class Board {
 	 * Se initializeaza cele 2 seturi de piese (se aseaza pe tabla)
 	 */
 	public static void initialize() {
+		Board.generateTable();
+		Board.placeInitialPieces();
+	}
+	
+	/** Generates a blank table, initializes the two sets.
+	 * <br>NO pieces are placed on the board.
+	 */ // Aceasta metoda trebuie sa fie PRIVATA. O tinem publica pentru testare.
+	public /*private*/ static void generateTable() {
 		Board.board = new Square[9][9];
-		
 		for(int number = 1; number <= 8; number++ )
 			for(int letter = Letter.A; letter <= Letter.H; letter++)
 				Board.board[number][letter] = new Square( 9 - number , letter );
-		Board.placePieces();
+		Board.blackSet = new PieceSet();
+		Board.whiteSet = new PieceSet();
 	}
 	
-	private static void placePieces() {
-		Board.blackSet = new PieceSet(PieceColor.BLACK);
-		Board.whiteSet = new PieceSet(PieceColor.WHITE);
+	/**Places pieces on the table in the start positions. */
+	private static void placeInitialPieces() {
+		Board.blackSet.setInitialPieces(PieceColor.BLACK);
+		Board.whiteSet.setInitialPieces(PieceColor.WHITE);
 	}
 	
 	/**Gettting a letter and a number (int), it returns the square at the
@@ -35,29 +46,38 @@ public class Board {
 		return Board.board[9 - number][letter];
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
+	/** Returns the game board */
 	public static Square[][] get() {
 		return Board.board;
 	}
 	
-	public static void set(Square[][] board) {
-		Board.board = board;
-	}
-	
+	/** Return the black pieces set */
 	public static PieceSet getBlackSet() {
 		return Board.blackSet;
 	}
 	
+	/** Return the white pieces set */
 	public static PieceSet getWhiteSet() {
 		return Board.whiteSet;
 	}
 	
+	/** Given 2 indexes, says if the required position is valid. */
 	public static boolean isSquareValid(int letter, int number) {
 		return ( letter > 0 && letter < 9 && number > 0 && number < 9);
 	}
+	
+	
+	/**The COLOR set will include PIECE
+	 * @param color WHITE / BLACK
+	 * @param piece Queen / Pawn / Knight etc
+	 */
+	public static void addPiece(int color, Piece piece) {
+		if ( color == PieceColor.WHITE)
+			Board.whiteSet.addPiece(piece);
+		else
+			Board.blackSet.addPiece(piece);
+	}
+	
 	
 	public static String printTable() {
 		
@@ -72,6 +92,17 @@ public class Board {
 		return sb.toString();
 	}
 	
-
+	public static String printTableShowMoves(ArrayList<Square> checkedMoves) {
+		StringBuilder sb = new StringBuilder();
+		for ( int i = 1 ; i <= 8 ; i++ ) {
+			for ( int j = 1 ; j <= 8 ; j++ ) 
+				if ( checkedMoves.contains(Board.get()[i][j]) ) sb.append(" * ");
+				else
+					sb.append(" " + Board.get()[i][j].toString() +" ");
+			sb.append("\n");
+		}
+		sb.deleteCharAt(sb.length()-1);
+		return sb.toString();
+	}
 	
 }
