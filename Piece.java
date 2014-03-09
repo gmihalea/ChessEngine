@@ -193,6 +193,21 @@ public abstract class Piece {
 			}
 		}
 		
+		// Knight
+		for(int i = -2; i <= 2; i++) {
+			for(int j = -2; j <= 2; j++) {
+				if(Math.abs(i) != Math.abs(j) && i != 0 && j != 0) {
+					if(Board.isSquareValid(letter + i, number + j)) {
+						intermediate = Board.translate(letter + i, number + j);
+						if(intermediate.getPiece() != null
+								&& intermediate.getPiece().getColor() == opponentColor
+								&& PieceType.getType(intermediate.getPiece()) == PieceType.KNIGHT)
+							return true;
+					}
+				}
+			}
+		}
+			
 		return false;
 	}
 	
