@@ -1,42 +1,49 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 
 
 public class Conversion {
 	
 	public static void main (String[] args) {
 		
-		/*
-		 * 8 # @ $ ^ * $ @ #
-		 * 7 . . . . . . . .
-		 * 6   Asta este
-		 * 5  forma tablei
-		 * 4   ^ regina
-		 * 3     *rege
-		 * 2 . . . . . . . .
-		 * 1 # @ $ ^ * $ @ #
-		 *   a b c d e f g h
-		 */
-		
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+		
+		Writer out=null;
+		Writer showCommands = null;
+		
 		
 		String command=null;
 		String quit = "quit";
+		
+		Game.initialize();
 		
 		try {
 			command = in.readLine();
 			// Comenzi acceptate:
 			// xboard, new, force, go, white, black, quit, resign, move
-			while ( command != quit ) {
-	
-				// System.out.println("Asa zici?\n"+command);
+			while ( command.compareTo(quit) != 0  ) {
+				command = command.toLowerCase();
+				
+				try { out = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("BoardTest.out"), "UTF-8")); } catch (UnsupportedEncodingException e) {} catch (FileNotFoundException e) {} try {try {out.write(Board.printTable());} catch (IOException e) {}} finally {try {out.close();} catch (IOException e) {}}
+				try { showCommands = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("commands.log"), "UTF-8")); } catch (UnsupportedEncodingException e) {} catch (FileNotFoundException e) {} try {try {showCommands.write(command+"\n");} catch (IOException e) {}} finally {try {showCommands.close();} catch (IOException e) {}}
+
 				switch(command) {
 					case "xboard":
 						// ca sa fie bine ca sa nu fie rau ma-ntelegi?
 						break;
+					case "protover 2":
+						Game.initialize();
+						// ajuta lafel de mult ca o furca intr-o maternitate
+						break;
 					case "new":
-						// Game.initialize();
+						Game.initialize();
 						/* Reset the board to the standard chess starting position.
 						 * Set White on move. Leave force mode and set the engine to play Black.
 						 * Associate the engine's clock with Black and the opponent's clock with White.
@@ -47,8 +54,7 @@ public class Conversion {
 						 */
 						break;
 					case "force":
-						// Game.setForceMode();
-						
+						 Game.setForceMode();
 						/* Set the engine to play neither color ("force mode").
 						 * Stop clocks.
 						 * The engine should check that moves received in force mode are legal and made
@@ -56,9 +62,8 @@ public class Conversion {
 						 */
 						break;
 					case "go":
-						// Game.setDefaultMode();
-						// Move myMove = Game.play();
-						// syso(myMove.toString());
+						Game.setDefaultMode();
+						System.out.println(Game.getRandomMove());
 						/* Leave force mode and set the engine to play the color that is on move.
 						 * Associate the engine's clock with the color that is on move,
 						 * the opponent's clock with the color that is not on move.
@@ -66,18 +71,13 @@ public class Conversion {
 						 */
 						break;
 					case "white":
-						/*
-						 * Set White on move. Set the engine to play Black. Stop clocks.
-						 */
+						/* Set White on move. Set the engine to play Black. Stop clocks. */
 						break;
 					case "black":
-						/*
-						 *  Set Black on move. Set the engine to play White. Stop clocks.
-						 */
+						/* Set Black on move. Set the engine to play White. Stop clocks. */
 						break;
 					case "resign":
-						/*
-						 * If your engine wants to resign, it can send the command "resign".
+						/* If your engine wants to resign, it can send the command "resign".
 						 * Alternatively, it can use the "RESULT {comment}" command if the string
 						 * "resign" is included in the comment; for example "0-1 {White resigns}".
 						 * xboard relays the resignation to the user, the ICS, the other engine in
@@ -86,13 +86,10 @@ public class Conversion {
 						 */
 						break;
 					default:
-						//Square start = Board.translate ...
-						//Square end = Board.translate ...
-						//Move move = new Move ( start, end )
-						// Game.play(move);
+						String result = Game.replyToMove(command);
+						if (result!="") System.out.println(result);
 						
-						/*
-						 * If the move is illegal, print an error message;
+						/* If the move is illegal, print an error message;
 						 * see the section "Commands from the engine to xboard".
 						 * If the move is legal and in turn, make it.
 						 * If not in force mode, stop the opponent's clock, start the engine's clock,
@@ -102,8 +99,9 @@ public class Conversion {
 						 * e7e8q	Pawn promotion
 						 * e1g1 e1c1 (1 or 8) Castling (Rocada)
 						 */
-				}
+				}// ends switch
 				command = in.readLine();
+
 			} // ends while
 		} catch (IOException e) {}
 	}
