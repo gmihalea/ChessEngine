@@ -66,7 +66,6 @@ public class Board {
 		return ( letter > 0 && letter < 9 && number > 0 && number < 9);
 	}
 	
-	
 	/**The COLOR set will include PIECE
 	 * @param color WHITE / BLACK
 	 * @param piece Queen / Pawn / Knight etc
@@ -77,6 +76,23 @@ public class Board {
 		else
 			Board.blackSet.addPiece(piece);
 	}
+	
+	/** Given a string of 2 characters ( one letter , one diggit )
+	 * <br> it returns the square at the required position, or NULL if
+	 * <br> the position is invalid.
+	 * @param position
+	 * @return square at 'position' , or NULL
+	 */
+	public static Square getFromString(String position) {
+		int letter = ( (int) ( position.charAt(0) -'a' ) ) + 1;
+		int number = ( (int) ( position.charAt(1) -'1' ) ) + 1;
+		if ( Board.isSquareValid(letter, number) )
+			return Board.translate(letter, number);
+		return null;
+	}
+	
+	
+	
 	
 	
 	public static String printTable() {

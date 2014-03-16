@@ -25,10 +25,10 @@ public class PieceSet {
 		rowNumber = (color == PieceColor.WHITE) ? 1 : 8;
 		this.addPiece(new Rook		(Board.translate(Letter.A, rowNumber), color)); 	
 		this.addPiece(new Rook		(Board.translate(Letter.H, rowNumber), color)); 
-		this.addPiece(new Bishop	(Board.translate(Letter.B, rowNumber), color)); 
-		this.addPiece(new Bishop	(Board.translate(Letter.G, rowNumber), color));
-		this.addPiece(new Knight	(Board.translate(Letter.C, rowNumber), color)); 
-		this.addPiece(new Knight	(Board.translate(Letter.F, rowNumber), color)); 
+		this.addPiece(new Bishop	(Board.translate(Letter.C, rowNumber), color)); 
+		this.addPiece(new Bishop	(Board.translate(Letter.F, rowNumber), color));
+		this.addPiece(new Knight	(Board.translate(Letter.B, rowNumber), color)); 
+		this.addPiece(new Knight	(Board.translate(Letter.G, rowNumber), color)); 
 		this.addPiece(new Queen		(Board.translate(Letter.D, rowNumber), color)); 
 		this.addPiece(new King		(Board.translate(Letter.E, rowNumber), color));
 	}

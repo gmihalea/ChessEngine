@@ -32,12 +32,12 @@ public class Square {
 	}
 	
 	public String getCoords() {
-		return Letter.toString(this.letter) + this.number;
+		return "" + ((char) (this.letter+96)) + this.number;
 	}
 	
 	/** Returns a string interpretation of the piece on this square */
 	public String toString() {
-		if ( this.piece == null ) return "❤"; // â�¤
+		if ( this.piece == null ) return "❤"; // ❤ â�¤
 		
 		// Return white pieces
 		if ( this.piece.getColor() == PieceColor.WHITE) {
