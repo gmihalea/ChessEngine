@@ -32,6 +32,6 @@ public class Move {
 	
 	@Override
 	public String toString() {
-		return ("move: " + startSquare.getCoords() + endSquare.getCoords()).toLowerCase() + '\n';
+		return ("move " + startSquare.getCoords() + endSquare.getCoords()).toLowerCase() + '\n';
 	}
 }
