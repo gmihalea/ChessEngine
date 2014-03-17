@@ -6,6 +6,9 @@ public class Knight extends Piece {
 		super(position, color);
 	}
 
+	
+	
+	
 	@Override
 	public ArrayList<Square> getValidSquares() {
 		int row = this.getPosition().getNumber();
@@ -14,11 +17,16 @@ public class Knight extends Piece {
 		Square intermediate;
 		ArrayList<Square> result = new ArrayList<Square>();
 		
+		
+		
+		
+			
+		
 		for(int i = -2; i <= 2; i++) { 
-			for(int j = -2; j <= 2; j++) { 
-				if(Math.abs(i) != Math.abs(j) && i != 0 && j != 0) { 
+			for(int j = -2; j <= 2; j++) {
+				if(Math.abs(i) != Math.abs(j) && i != 0 && j != 0) {
 					if(Board.isSquareValid(row + i, column + j)){
-						intermediate = Board.translate(row + i, column + j);
+						intermediate = Board.translate(column + j, row + i);
 						if(intermediate.getPiece() == null || intermediate.getPiece().getColor() == oponentColor)
 							result.add(intermediate);
 					}
