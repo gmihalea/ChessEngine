@@ -28,7 +28,7 @@ public class GameStatus {
 		opponentColor = opponentSet.getColor();
 		Piece auxKing = currentSet.getAvailablePieces().get(0);
 		
-		if (Piece.canBeCaptured(auxKing.getPosition(), opponentColor)){
+		if (Piece.canBeCaptured(auxKing, auxKing.getPosition(), opponentColor)){
 			if (currentColor == PieceColor.BLACK){
 				blackCheck = true;
 			}
