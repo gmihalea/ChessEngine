@@ -110,25 +110,25 @@ public abstract class Piece {
 		for(int i = -1; i <= 1; i++) {
 			for(int j = -1; j <= 1; j++) {
 				if(!(i == 0 && j == 0)) {
-					if(Board.isSquareValid(letter + i, number + j)){
+					if(Board.isSquareValid(letter + i, number + j)) {
 						intermediate = Board.translate(letter + i, number + j);
 						if(intermediate.getPiece() != null) {
 							if(intermediate.getPiece().getColor() == opponentColor) {
 								
 								if(PieceType.getType(intermediate.getPiece()) == PieceType.KING)
 									return true;
-								
-								if(Math.abs(i) == Math.abs(j)) {
-									if(Piece.checkDirection(square, i, j, opponentColor,
-											PieceType.QUEEN, PieceType.BISHOP))
-										return true;
-								}
-								else {
-									if(Piece.checkDirection(square, i, j, opponentColor,
-											PieceType.QUEEN, PieceType.ROOK))
-										return true;
-								}
 							}
+						}
+						
+						if(Math.abs(i) == Math.abs(j)) {
+							if(Piece.checkDirection(square, i, j, opponentColor,
+									PieceType.QUEEN, PieceType.BISHOP))
+								return true;
+						}
+						else {
+							if(Piece.checkDirection(square, i, j, opponentColor,
+									PieceType.QUEEN, PieceType.ROOK))
+								return true;
 						}
 					}
 				}
