@@ -44,7 +44,6 @@ public class Game {
 
 
 	private static String think(){
-		System.out.println("GIGELE: ALB: " + GameStatus.isWhiteCheck() + " . NEGRU: " + GameStatus.isBlackCheck()+"\n");
 		if(Game.mySet.getColor()==PieceColor.BLACK && GameStatus.isBlackCheck() || 
 		   Game.mySet.getColor()==PieceColor.WHITE && GameStatus.isWhiteCheck()	){
 			 return SpecialMoves.outOfCheck();
@@ -92,11 +91,16 @@ public class Game {
 		if ( tries ==0 ) return "resign";
 
 		
+		
 		ArrayList<Square> possibleMoves = pieceToMove.getValidSquares();
 		Move randMove = new Move (	pieceToMove.getPosition(),
 									possibleMoves.get((randGen.nextInt(possibleMoves.size()))));
 
-		return makeMove(randMove);
+		makeMove(randMove);
+		Piece p = randMove.getStartSquare().getPiece();
+		if(PieceType.getType(p) == PieceType.PAWN && (randMove.getEndSquare().getNumber() == 1 || randMove.getEndSquare().getNumber() == 1) )
+			SpecialMoves.pawnPromotion((Pawn)p);
+		return randMove.toString()+'q';
 	}
 
 
