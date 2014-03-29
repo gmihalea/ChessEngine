@@ -102,30 +102,34 @@ public abstract class Piece {
 		if(myColor == PieceColor.WHITE) {
 			if(Board.isSquareValid(square.getLetter() + 1, number + 1)) {
 				intermediate = Board.translate(square.getLetter() + 1, number + 1);
-				if(intermediate.getPiece().getColor() == opponentColor &&
-						PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
+				if(intermediate.getPiece() != null
+						&& intermediate.getPiece().getColor() == opponentColor
+						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
 					return true;
 			}
 			
 			if(Board.isSquareValid(square.getLetter() - 1, number + 1)) {
 				intermediate = Board.translate(square.getLetter() - 1, number + 1);
-				if(intermediate.getPiece().getColor() == opponentColor &&
-						PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
+				if(intermediate.getPiece() != null
+						&& intermediate.getPiece().getColor() == opponentColor
+						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
 					return true;
 			}
 		}
 		else {
 			if(Board.isSquareValid(square.getLetter() + 1, number - 1)) {
 				intermediate = Board.translate(square.getLetter() + 1, number - 1);
-				if(intermediate.getPiece().getColor() == opponentColor &&
-						PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
+				if(intermediate.getPiece() != null
+						&& intermediate.getPiece().getColor() == opponentColor
+						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
 					return true;
 			}
 			
 			if(Board.isSquareValid(square.getLetter() - 1, number - 1)) {
 				intermediate = Board.translate(square.getLetter() - 1, number - 1);
-				if(intermediate.getPiece().getColor() == opponentColor &&
-						PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
+				if(intermediate.getPiece() != null
+						&& intermediate.getPiece().getColor() == opponentColor
+						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
 					return true;
 			}
 		}
