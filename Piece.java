@@ -6,6 +6,7 @@ public abstract class Piece {
 	private int color;
 	
 	public Piece(Square position, int color) {
+		
 		this.position = position;
 		this.color = color;
 		this.position.setPiece(this);
@@ -14,6 +15,7 @@ public abstract class Piece {
 	public abstract ArrayList<Square> getValidSquares();
 	
 	public ArrayList<Square> getAtackSquares() {
+		
 		ArrayList<Square> result = new ArrayList<Square>();
 		ArrayList<Square> validSquares = this.getValidSquares();
 		int opponentColor = (this.color == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
@@ -26,6 +28,7 @@ public abstract class Piece {
 	}
 	
 	public ArrayList<Square> getCaptureFreeSquares() {
+		
 		ArrayList<Square> result = new ArrayList<Square>();
 		ArrayList<Square> validSquares = this.getValidSquares();
 		int opponentColor = (this.color == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
@@ -40,7 +43,6 @@ public abstract class Piece {
 	private static boolean checkDirection(Square square, int letter, int number, int opponentColor,
 			int... opponents) {
 		
-		int pieceType;
 		Square intermediate;
 		
 		intermediate = square;
@@ -52,10 +54,10 @@ public abstract class Piece {
 			
 			if(intermediate.getPiece() != null) {
 				if(intermediate.getPiece().getColor() == opponentColor) {
-					pieceType = PieceType.getType(intermediate.getPiece());
 					for(int opponent : opponents) {
-						if(pieceType == opponent)
+						if(PieceType.getType(intermediate.getPiece()) == opponent)
 							return true;
+						
 						break;
 					}
 				}
@@ -67,22 +69,23 @@ public abstract class Piece {
 	}
 
 	public static boolean canBeCaptured(Square square, int opponentColor) {
+		
 		int number = square.getNumber();
 		int letter = square.getLetter();
 		int myColor = (opponentColor == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
 		Square intermediate;
 		
 		if(myColor == PieceColor.WHITE) {
-			if(Board.isSquareValid(square.getLetter() + 1, number + 1)) {
-				intermediate = Board.translate(square.getLetter() + 1, number + 1);
+			if(Board.isSquareValid(letter + 1, number + 1)) {
+				intermediate = Board.translate(letter + 1, number + 1);
 				if(intermediate.getPiece() != null
 						&& intermediate.getPiece().getColor() == opponentColor
 						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
 					return true;
 			}
 			
-			if(Board.isSquareValid(square.getLetter() - 1, number + 1)) {
-				intermediate = Board.translate(square.getLetter() - 1, number + 1);
+			if(Board.isSquareValid(letter - 1, number + 1)) {
+				intermediate = Board.translate(letter - 1, number + 1);
 				if(intermediate.getPiece() != null
 						&& intermediate.getPiece().getColor() == opponentColor
 						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
@@ -90,16 +93,16 @@ public abstract class Piece {
 			}
 		}
 		else {
-			if(Board.isSquareValid(square.getLetter() + 1, number - 1)) {
-				intermediate = Board.translate(square.getLetter() + 1, number - 1);
+			if(Board.isSquareValid(letter + 1, number - 1)) {
+				intermediate = Board.translate(letter + 1, number - 1);
 				if(intermediate.getPiece() != null
 						&& intermediate.getPiece().getColor() == opponentColor
 						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
 					return true;
 			}
 			
-			if(Board.isSquareValid(square.getLetter() - 1, number - 1)) {
-				intermediate = Board.translate(square.getLetter() - 1, number - 1);
+			if(Board.isSquareValid(letter - 1, number - 1)) {
+				intermediate = Board.translate(letter - 1, number - 1);
 				if(intermediate.getPiece() != null
 						&& intermediate.getPiece().getColor() == opponentColor
 						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
@@ -110,15 +113,13 @@ public abstract class Piece {
 		for(int i = -1; i <= 1; i++) {
 			for(int j = -1; j <= 1; j++) {
 				if(!(i == 0 && j == 0)) {
+					
 					if(Board.isSquareValid(letter + i, number + j)) {
 						intermediate = Board.translate(letter + i, number + j);
-						if(intermediate.getPiece() != null) {
-							if(intermediate.getPiece().getColor() == opponentColor) {
-								
-								if(PieceType.getType(intermediate.getPiece()) == PieceType.KING)
-									return true;
-							}
-						}
+						if(intermediate.getPiece() != null
+								&& intermediate.getPiece().getColor() == opponentColor
+								&& PieceType.getType(intermediate.getPiece()) == PieceType.KING)
+							return true;
 					}
 					
 					if(Math.abs(i) == Math.abs(j)) {
@@ -153,14 +154,17 @@ public abstract class Piece {
 	}
 	
 	public Square getPosition() {
+		
 		return this.position;
 	}
 	
 	public void setPosition(Square position) {
+		
 		this.position = position;
 	}
 	
 	public int getColor() {
+		
 		return this.color;
 	}
 }
