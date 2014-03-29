@@ -13,6 +13,8 @@ public class Game {
 	private static PieceSet mySet;
 	private static PieceSet opponentSet;
 	private static int turn;
+	private static int myColor;
+	private static int opponentColor;
 	
 	/** Creates a new game:
 	 * <br> - Clears the table
@@ -27,6 +29,10 @@ public class Game {
 		Game.opponentSet = Board.getWhiteSet();
 		Game.turn = PieceColor.WHITE;
 		Game.myClock = Game.blackClock;
+		//TODO: set myColor, opponentColor
+		Game.myColor = PieceColor.BLACK;
+		Game.opponentColor = PieceColor.WHITE;
+		//TODO: Check what set should I be
 	}
 	
 	/** Switches turns */
@@ -52,7 +58,7 @@ public class Game {
 				return "Illegal move: " + moveString;	//^^ and the end square is a valid move
 		
 		makeMove(move); // If WinBoard sent a valid move, the move is made
-		
+				
 		if ( Game.mode == GameMode.FORCE) return "";	// We don't move when in FORCE mode
 			
 		return getRandomMove(); // Must be changed with a method that returns a clever move.
@@ -91,6 +97,8 @@ public class Game {
 		move.getStartSquare().getPiece().setPosition(move.getEndSquare()); // We move our piece
 		move.getEndSquare().setPiece(move.getStartSquare().getPiece()); // on the end square
 		move.getStartSquare().setPiece(null); // And remove it from the old square
+		
+		GameStatus.update(move.getStartSquare().getPiece().getColor());
 		
 		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
 		return move.toString();

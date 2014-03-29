@@ -3,9 +3,10 @@ import java.util.ArrayList;
 public class PieceSet {
 	
 	private static final int NO_OF_PIECES = 16;
-	
+		
 	private ArrayList<Piece> available = null;
 	private ArrayList<Piece> captured = null;
+	private int color = 0;
 	
 	/**Initializes this piece set ( with NO pieces ) */
 	public PieceSet() {
@@ -18,19 +19,20 @@ public class PieceSet {
 	 * @param color PieceColor.WHITE or PieceColor.BLACK 
 	 */
 	public void setInitialPieces(int color) {
-		int rowNumber = (color == PieceColor.WHITE) ? 2 : 7; 
-		for (int letter = Letter.A; letter <= Letter.H; letter++)
-			this.available.add(new Pawn(Board.translate(letter, rowNumber), color)); 
-		
-		rowNumber = (color == PieceColor.WHITE) ? 1 : 8;
+		int rowNumber = (color == PieceColor.WHITE) ? 1 : 8;
+		this.addPiece(new King		(Board.translate(Letter.E, rowNumber), color));
 		this.addPiece(new Rook		(Board.translate(Letter.A, rowNumber), color)); 	
 		this.addPiece(new Rook		(Board.translate(Letter.H, rowNumber), color)); 
 		this.addPiece(new Bishop	(Board.translate(Letter.C, rowNumber), color)); 
 		this.addPiece(new Bishop	(Board.translate(Letter.F, rowNumber), color));
 		this.addPiece(new Knight	(Board.translate(Letter.B, rowNumber), color)); 
 		this.addPiece(new Knight	(Board.translate(Letter.G, rowNumber), color)); 
-		this.addPiece(new Queen		(Board.translate(Letter.D, rowNumber), color)); 
-		this.addPiece(new King		(Board.translate(Letter.E, rowNumber), color));
+		this.addPiece(new Queen		(Board.translate(Letter.D, rowNumber), color));
+		
+		rowNumber = (color == PieceColor.WHITE) ? 2 : 7; 
+		for (int letter = Letter.A; letter <= Letter.H; letter++)
+			this.available.add(new Pawn(Board.translate(letter, rowNumber), color));
+		this.setColor(color);
 	}
 	
 	public void addPiece(Piece piece) {
@@ -51,5 +53,13 @@ public class PieceSet {
 				this.captured.add(this.available.remove(i));
 				break;
 			}
+	}
+
+	public int getColor() {
+		return color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
 	}
 }
