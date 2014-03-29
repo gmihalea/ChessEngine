@@ -8,24 +8,24 @@ import java.io.Writer;
 
 
 public class Conversion {
-	
+
 	public static void main (String[] args) throws Exception {
-		
-		
+
+
 		// Pentru afisare in fisier
 		Writer tablePrinter=null;
 		FileWriter showWinBoardCommands = null;
 		FileWriter showMyCommands = null;
-		
-		
-		
-		
-		
+
+
+
+
+
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		Game.initialize();
 		String result=null;
 		String command=null;
-		
+
 		command = in.readLine();
 		// Comenzi acceptate:
 		// xboard, new, force, go, white, black, quit, resign, move
@@ -38,8 +38,8 @@ public class Conversion {
 			if ( command.contains("accepted")) continue;
 			if ( command.contains("quit")) return;
 
-			
-			
+
+
 			switch(command) {
 				case "protover 2":
 				case "xboard":
