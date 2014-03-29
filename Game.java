@@ -64,7 +64,7 @@ public class Game {
 			move.getStartSquare().getPiece() == null || 	// the piece on the start position has
 			move.getStartSquare().getPiece().getColor() != Game.turn || // colour of the turn				
 			move.getStartSquare().getPiece().getValidSquares().indexOf(move.getEndSquare()) < 0 )
-				return "Illegal move: " + moveString;	//^^ and the end square is a valid move
+				return "Illegal move: " + moveString + '\n';	//^^ and the end square is a valid move
 		
 		makeMove(move); // If WinBoard sent a valid move, the move is made
 				
@@ -111,7 +111,10 @@ public class Game {
 		move.getEndSquare().setPiece(move.getStartSquare().getPiece()); // on the end square
 		move.getStartSquare().setPiece(null); // And remove it from the old square
 		
-		GameStatus.update(move.getStartSquare().getPiece().getColor());
+		GameStatus.update(move.
+				getEndSquare().
+				getPiece().
+				getColor());
 		
 		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
 		return move.toString();
