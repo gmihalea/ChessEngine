@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Stack;
 
 
 public class Game {
@@ -7,6 +8,7 @@ public class Game {
 	private static int mode = GameMode.DEFAULT;
 	private static long whiteClock;
 	private static long blackClock;
+	private static Stack<Move> history = new Stack<Move>();
 	
 	@SuppressWarnings("unused")
 	private static long myClock;
@@ -90,7 +92,7 @@ public class Game {
 	/** Makes a move, and then changes the turn.
 	 * @return the move in a string interpretation*/
 	// We are SURE the move is VALID. It has been checked in earlier methods
-	private static String makeMove(Move move) {
+	public static String makeMove(Move move) {
 		if ( move.getEndSquare().getPiece() != null ) // If there is an ENEMY PIECE on END POSITION
 			opponentSet.capturePiece(move.getEndSquare().getPiece()); // we CAPTURE it
 			
@@ -98,6 +100,7 @@ public class Game {
 		move.getEndSquare().setPiece(move.getStartSquare().getPiece()); // on the end square
 		move.getStartSquare().setPiece(null); // And remove it from the old square
 		
+		history.add(move);
 		GameStatus.update(move.getStartSquare().getPiece().getColor());
 		
 		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
@@ -216,4 +219,7 @@ public class Game {
 		return false;
 	}
 	
+	public static  Stack<Move> getHistory() {
+		return history;
+	}
 }
