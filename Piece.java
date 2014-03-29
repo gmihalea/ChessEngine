@@ -119,17 +119,17 @@ public abstract class Piece {
 									return true;
 							}
 						}
-						
-						if(Math.abs(i) == Math.abs(j)) {
-							if(Piece.checkDirection(square, i, j, opponentColor,
-									PieceType.QUEEN, PieceType.BISHOP))
-								return true;
-						}
-						else {
-							if(Piece.checkDirection(square, i, j, opponentColor,
-									PieceType.QUEEN, PieceType.ROOK))
-								return true;
-						}
+					}
+					
+					if(Math.abs(i) == Math.abs(j)) {
+						if(Piece.checkDirection(square, i, j, opponentColor,
+								PieceType.QUEEN, PieceType.BISHOP))
+							return true;
+					}
+					else {
+						if(Piece.checkDirection(square, i, j, opponentColor,
+								PieceType.QUEEN, PieceType.ROOK))
+							return true;
 					}
 				}
 			}
