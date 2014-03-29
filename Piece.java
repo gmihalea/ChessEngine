@@ -32,15 +32,8 @@ public abstract class Piece {
 		ArrayList<Square> result = new ArrayList<Square>();
 		ArrayList<Square> validSquares = this.getValidSquares();
 		int opponentColor = (this.color == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
-		Piece piece;
-		Square s;
 		
-		for(Square square : validSquares) {
-			/*piece = this;
-			s = this.position;
-			this.position.setPiece(null);
-			this.position = null;*/
-			
+		for(Square square : validSquares) {		
 			if(!Piece.canBeCaptured(square, opponentColor))
 				result.add(square);
 		}
@@ -48,7 +41,7 @@ public abstract class Piece {
 		return result;
 	}
 	
-	public static Square checkDirection(Piece currentPiece, Square square, int letter, int number,
+	public static Square checkDirection(Square square, int letter, int number,
 			int opponentColor, int... opponents) {
 		
 		Square intermediate;
@@ -68,9 +61,10 @@ public abstract class Piece {
 					}
 					break;
 				}
-				else
-					if(intermediate.getPiece() != currentPiece)
-						break;
+				
+				if(intermediate.getPiece() == square.getPiece())
+					continue;
+				break;
 			}
 		}
 		
@@ -89,9 +83,10 @@ public abstract class Piece {
 					}
 					break;
 				}
-				else
-					if(intermediate.getPiece() != currentPiece)
-						break;
+				
+				if(intermediate.getPiece() == square.getPiece())
+					continue;
+				break;
 			}
 		}
 		
@@ -155,12 +150,12 @@ public abstract class Piece {
 					
 					if(k < 4) {
 						if(Math.abs(i) == Math.abs(j)) {
-							if(Piece.checkDirection(square.getPiece(), square, i, j, opponentColor,
+							if(Piece.checkDirection(square, i, j, opponentColor,
 									PieceType.QUEEN, PieceType.BISHOP) != null)
 								return true;
 						}
 						else {
-							if(Piece.checkDirection(square.getPiece(), square, i, j, opponentColor,
+							if(Piece.checkDirection(square, i, j, opponentColor,
 									PieceType.QUEEN, PieceType.ROOK) != null)
 								return true;
 						}
