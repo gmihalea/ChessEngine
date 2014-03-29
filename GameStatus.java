@@ -65,10 +65,7 @@ public class GameStatus {
 				if (possibleMoves==0)
 					whiteStaleMate=true;
 			}
-		}
-		
-		
-		
+		}	
 	}
 	
 	public static boolean isBlackCheck() {

@@ -43,6 +43,15 @@ public class Game {
 	}
 	
 	
+	private static String think(){
+		if(Game.mySet.getColor()==PieceColor.BLACK && GameStatus.isBlackCheck() || 
+		   Game.mySet.getColor()==PieceColor.WHITE && GameStatus.isWhiteCheck()	){
+			 return SpecialMoves.outOfCheck();
+		} else return getRandomMove();
+	}
+	
+	
+	
 	/** Verifies if the move made by the opponent is valid:
 	 * <br> - If the move is valid, it replies with another move.
 	 * <br> - If the move is invalid, it returns a message, pointing it out.
@@ -63,7 +72,7 @@ public class Game {
 				
 		if ( Game.mode == GameMode.FORCE) return "";	// We don't move when in FORCE mode
 			
-		return getRandomMove(); // Must be changed with a method that returns a clever move.
+		return think(); // Must be changed with a method that returns a clever move.
 	}
 	
 	/** Returns a random move (and changes the turn) */
@@ -89,6 +98,10 @@ public class Game {
 	}
 
 	
+	public static PieceSet getMySet() {
+		return mySet;
+	}
+
 	/** Makes a move, and then changes the turn.
 	 * @return the move in a string interpretation*/
 	// We are SURE the move is VALID. It has been checked in earlier methods
