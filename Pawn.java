@@ -51,6 +51,15 @@ public class Pawn extends Piece {
 				result.add(intermediate);
 		}
 		
+		Move move = Game.getHistory().peek();
+		Square square = this.getColor() == PieceColor.WHITE ? 
+				Board.translate(move.getStartSquare().getNumber() + 1, move.getStartSquare().getLetter()):
+					Board.translate(move.getStartSquare().getNumber() - 1, move.getStartSquare().getLetter());
+				
+		if(PieceType.getType(move.getEndSquare().getPiece()) == PieceType.PAWN &&
+				Math.abs(move.getStartSquare().getNumber() - move.getEndSquare().getNumber()) == 2)
+			result.add(square);
+		
 		return result;
 	}
 

@@ -64,11 +64,31 @@ public abstract class Piece {
 			}
 		}
 		
+		intermediate = square;
+		while(Board.isSquareValid(intermediate.getLetter() - letter,
+				intermediate.getNumber() - number)) {
+			
+			intermediate = Board.translate(intermediate.getLetter() - letter,
+					intermediate.getNumber() - number);
+			
+			if(intermediate.getPiece() != null) {
+				if(intermediate.getPiece().getColor() == opponentColor) {
+					for(int opponent : opponents) {
+						if(PieceType.getType(intermediate.getPiece()) == opponent)
+							return intermediate;
+					}
+					break;
+				}
+				else break;
+			}
+		}
+		
 		return null;
 	}
 
 	public static boolean canBeCaptured(Square square, int opponentColor) {
 		
+		int k = 0;
 		int number = square.getNumber();
 		int letter = square.getLetter();
 		int myColor = (opponentColor == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
@@ -121,16 +141,20 @@ public abstract class Piece {
 							return true;
 					}
 					
-					if(Math.abs(i) == Math.abs(j)) {
-						if(Piece.checkDirection(square, i, j, opponentColor,
-								PieceType.QUEEN, PieceType.BISHOP) != null)
-							return true;
+					if(k < 4) {
+						if(Math.abs(i) == Math.abs(j)) {
+							if(Piece.checkDirection(square, i, j, opponentColor,
+									PieceType.QUEEN, PieceType.BISHOP) != null)
+								return true;
+						}
+						else {
+							if(Piece.checkDirection(square, i, j, opponentColor,
+									PieceType.QUEEN, PieceType.ROOK) != null)
+								return true;
+						}
 					}
-					else {
-						if(Piece.checkDirection(square, i, j, opponentColor,
-								PieceType.QUEEN, PieceType.ROOK) != null)
-							return true;
-					}
+					
+					k++;
 				}
 			}
 		}

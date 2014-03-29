@@ -22,10 +22,6 @@ public class SpecialMoves {
 		
 	}
 	
-	public static void enPassant(Pawn pawn){
-		
-	}
-	
 	public static String outOfCheck(){
 		Piece auxKing = Game.getMySet().getAvailablePieces().get(0);
 		ArrayList<Square> attackSquares = auxKing.getAtackSquares();
