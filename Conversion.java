@@ -23,11 +23,11 @@ public class Conversion {
 		String command=null;
 		
 		// Sterg fisierele de log
+		Game.initialize();
+		tablePrinter = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("commandsWB.log"), "UTF-8")); tablePrinter.write(""); tablePrinter.close();
+		tablePrinter = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("commandsENGINE.log"), "UTF-8")); tablePrinter.write(""); tablePrinter.close();
+		tablePrinter = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("BoardTest.out"), "UTF-8")); tablePrinter.write(Board.printTable()); tablePrinter.close();
 		
-		
-		// citesc prima comanda
-
-		command = in.readLine();
 		// Comenzi acceptate:
 		// xboard, new, force, go, white, black, quit, resign, move
 		do {

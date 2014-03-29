@@ -114,7 +114,7 @@ public class Game {
 		move.getStartSquare().setPiece(null); // And remove it from the old square
 
 		history.add(move);
-		GameStatus.update(move.getStartSquare().getPiece().getColor());
+		GameStatus.update(move.getEndSquare().getPiece().getColor());
 
 		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
 		return move.toString();
