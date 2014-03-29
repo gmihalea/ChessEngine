@@ -57,9 +57,8 @@ public abstract class Piece {
 					for(int opponent : opponents) {
 						if(PieceType.getType(intermediate.getPiece()) == opponent)
 							return true;
-						
-						break;
 					}
+					break;
 				}
 				else break;
 			}
