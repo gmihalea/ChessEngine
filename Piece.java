@@ -40,7 +40,7 @@ public abstract class Piece {
 		return result;
 	}
 	
-	private static boolean checkDirection(Square square, int letter, int number, int opponentColor,
+	public static Square checkDirection(Square square, int letter, int number, int opponentColor,
 			int... opponents) {
 		
 		Square intermediate;
@@ -56,7 +56,7 @@ public abstract class Piece {
 				if(intermediate.getPiece().getColor() == opponentColor) {
 					for(int opponent : opponents) {
 						if(PieceType.getType(intermediate.getPiece()) == opponent)
-							return true;
+							return intermediate;
 					}
 					break;
 				}
@@ -64,7 +64,7 @@ public abstract class Piece {
 			}
 		}
 		
-		return false;
+		return null;
 	}
 
 	public static boolean canBeCaptured(Square square, int opponentColor) {
@@ -123,12 +123,12 @@ public abstract class Piece {
 					
 					if(Math.abs(i) == Math.abs(j)) {
 						if(Piece.checkDirection(square, i, j, opponentColor,
-								PieceType.QUEEN, PieceType.BISHOP))
+								PieceType.QUEEN, PieceType.BISHOP) != null)
 							return true;
 					}
 					else {
 						if(Piece.checkDirection(square, i, j, opponentColor,
-								PieceType.QUEEN, PieceType.ROOK))
+								PieceType.QUEEN, PieceType.ROOK) != null)
 							return true;
 					}
 				}
