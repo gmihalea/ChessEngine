@@ -22,8 +22,8 @@ public class GameStatus {
 	public static void update(int color){
 		initialize();
 		int currentColor, opponentColor;
-		PieceSet currentSet = (color == PieceColor.BLACK) ? Board.getBlackSet() : Board.getWhiteSet();
-		PieceSet opponentSet = (color == PieceColor.BLACK) ? Board.getWhiteSet() : Board.getBlackSet();
+		PieceSet currentSet = (color != PieceColor.BLACK) ? Board.getBlackSet() : Board.getWhiteSet();
+		PieceSet opponentSet = (color != PieceColor.BLACK) ? Board.getWhiteSet() : Board.getBlackSet();
 		currentColor = currentSet.getColor();
 		opponentColor = opponentSet.getColor();
 		Piece auxKing = currentSet.getAvailablePieces().get(0);
@@ -65,7 +65,14 @@ public class GameStatus {
 				if (possibleMoves==0)
 					whiteStaleMate=true;
 			}
-		}	
+		}
+		System.out.println(
+				"\n blackCheck: " 		+ blackCheck 		+
+				"\n blackCheckMate: " 	+ blackCheckMate 	+
+				"\n blackStaleMate: " 	+ blackStaleMate 	+
+				"\n whiteCheck: " 		+ whiteCheck 		+
+				"\n whiteCheckMate: " 	+ whiteCheckMate 	+
+				"\n whiteStaleMate: " 	+ whiteStaleMate 	+ '\n');
 	}
 	
 	public static boolean isBlackCheck() {

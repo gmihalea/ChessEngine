@@ -44,6 +44,7 @@ public class Game {
 
 
 	private static String think(){
+		System.out.println("GIGELE: ALB: " + GameStatus.isWhiteCheck() + " . NEGRU: " + GameStatus.isBlackCheck()+"\n");
 		if(Game.mySet.getColor()==PieceColor.BLACK && GameStatus.isBlackCheck() || 
 		   Game.mySet.getColor()==PieceColor.WHITE && GameStatus.isWhiteCheck()	){
 			 return SpecialMoves.outOfCheck();
@@ -69,7 +70,7 @@ public class Game {
 				return "Illegal move: " + moveString;	//^^ and the end square is a valid move
 
 		makeMove(move); // If WinBoard sent a valid move, the move is made
-
+		history.push(move);
 		if ( Game.mode == GameMode.FORCE) return "";	// We don't move when in FORCE mode
 
 		return think(); // Must be changed with a method that returns a clever move.
@@ -83,13 +84,14 @@ public class Game {
 
 		int randomIndex;
 		int tries = 100;
-		do { randomIndex = randGen.nextInt(mySet.getAvailablePieces().size());
+		do { randomIndex = 1 + randGen.nextInt(mySet.getAvailablePieces().size() - 1);
 			pieceToMove = mySet.getAvailablePieces().get(randomIndex);
 			tries--;
 		} while ( pieceToMove.getValidSquares().size() == 0 && tries > 0);
 
 		if ( tries ==0 ) return "resign";
 
+		
 		ArrayList<Square> possibleMoves = pieceToMove.getValidSquares();
 		Move randMove = new Move (	pieceToMove.getPosition(),
 									possibleMoves.get((randGen.nextInt(possibleMoves.size()))));
@@ -113,7 +115,22 @@ public class Game {
 		move.getEndSquare().setPiece(move.getStartSquare().getPiece()); // on the end square
 		move.getStartSquare().setPiece(null); // And remove it from the old square
 
-		history.add(move);
+		switch(PieceType.getType(move.getEndSquare().getPiece())) {
+			
+			case PieceType.PAWN:
+				((Pawn)move.getEndSquare().getPiece()).setMoved(true);
+				break;
+				
+			case PieceType.KING:
+				((King)move.getEndSquare().getPiece()).setMoved(true);
+				break;
+				
+			case PieceType.ROOK:
+				((Rook)move.getEndSquare().getPiece()).setMoved(true);
+				break;
+		}
+		
+		//history.add(move);
 		GameStatus.update(move.getEndSquare().getPiece().getColor());
 
 		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.

@@ -78,7 +78,7 @@ public class TEST_BOARD {
 		
 		*/
 		// CAN BE CAPTURED
-		
+		/*
 		checkme = new Queen (Board.translate(Letter.D, 4), white);
 		Board.addPiece(checkme);
 		
@@ -86,9 +86,30 @@ public class TEST_BOARD {
 		Board.addPiece(new Knight	(Board.translate(Letter.C, 2), black) );
 		Board.addPiece(new Bishop	(Board.translate(Letter.H, 3), black) );
 		Board.addPiece(new Queen	(Board.translate(Letter.H, 7), black) );
+		Board.addPiece(new Rook		(Board.translate(Letter.D, 8), black) );
+		Board.addPiece(new Rook		(Board.translate(Letter.E, 7), black) );
 		Board.addPiece(new Rook		(Board.translate(Letter.H, 5), black) );
 		Board.addPiece(new King		(Board.translate(Letter.B, 8), white) );
 		Board.addPiece(new Pawn		(Board.translate(Letter.C, 7), black) );
+		*/
+		
+		//SAH
+		int rowNumber = 8;
+		checkme = new King		(Board.translate(Letter.E, rowNumber), black);
+		Board.addPiece(new Bishop	(Board.translate(Letter.C, rowNumber), black)); 
+		Board.addPiece(new Bishop	(Board.translate(Letter.F, rowNumber), black));
+		Board.addPiece(new Queen	(Board.translate(Letter.D, rowNumber), black));
+
+		Board.addPiece(new Pawn		(Board.translate(Letter.D, 7), black) );
+		Board.addPiece(new Pawn		(Board.translate(Letter.E, 7), black) );
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
