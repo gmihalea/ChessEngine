@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 
 public class GameStatus {
 
@@ -8,54 +10,91 @@ public class GameStatus {
 	private static boolean whiteCheckMate;
 	private static boolean whiteStaleMate;
 	
+	private static void initialize(){
+		blackCheck = false;
+		blackCheckMate = false;
+		blackStaleMate = false;
+		whiteCheck = false;
+		whiteCheckMate = false;
+		whiteStaleMate = false;
+	}
+	
+	public static void update(int color){
+		initialize();
+		int currentColor, opponentColor;
+		PieceSet currentSet = (color == PieceColor.BLACK) ? Board.getBlackSet() : Board.getWhiteSet();
+		PieceSet opponentSet = (color == PieceColor.BLACK) ? Board.getWhiteSet() : Board.getBlackSet();
+		currentColor = currentSet.getColor();
+		opponentColor = opponentSet.getColor();
+		Piece auxKing = currentSet.getAvailablePieces().get(0);
+		
+		if (Piece.canBeCaptured(auxKing.getPosition(), opponentColor)){
+			if (currentColor == PieceColor.BLACK){
+				blackCheck = true;
+			}
+			if (currentColor == PieceColor.WHITE){
+				whiteCheck = true;
+			}
+		}
+		
+		if (currentColor == PieceColor.BLACK && blackCheck && auxKing.getCaptureFreeSquares().isEmpty()){
+			blackCheckMate = true;
+		} else {
+			if (currentColor == PieceColor.WHITE && whiteCheck && auxKing.getCaptureFreeSquares().isEmpty()){
+				whiteCheckMate = true;
+			}
+		}
+		
+		if (currentColor == PieceColor.BLACK && !blackCheck && auxKing.getCaptureFreeSquares().isEmpty()){
+			int possibleMoves=0;
+			ArrayList<Piece> available = currentSet.getAvailablePieces();
+			for (Piece p : available){
+				possibleMoves+=p.getValidSquares().size();
+			}
+			
+			if (possibleMoves==0)
+				blackStaleMate=true;
+		} else {
+			if (currentColor == PieceColor.WHITE && !whiteCheck && auxKing.getCaptureFreeSquares().isEmpty()){
+				int possibleMoves=0;
+				ArrayList<Piece> available = currentSet.getAvailablePieces();
+				for (Piece p : available){
+					possibleMoves+=p.getValidSquares().size();
+				}
+			
+				if (possibleMoves==0)
+					whiteStaleMate=true;
+			}
+		}
+		
+		
+		
+	}
+	
 	public static boolean isBlackCheck() {
 		return GameStatus.blackCheck;
-	}
-
-	public static void setBlackCheck(boolean blackCheck) {
-		GameStatus.blackCheck = blackCheck;
 	}
 
 	public static boolean isBlackCheckMate() {
 		return GameStatus.blackCheckMate;
 	}
 
-	public static void setBlackCheckMate(boolean blackCheckMate) {
-		GameStatus.blackCheckMate = blackCheckMate;
-	}
-
 	public static boolean isBlackStaleMate() {
 		return GameStatus.blackStaleMate;
-	}
-
-	public static void setBlackStaleMate(boolean blackStaleMate) {
-		GameStatus.blackStaleMate = blackStaleMate;
 	}
 
 	public static boolean isWhiteCheck() {
 		return GameStatus.whiteCheck;
 	}
 
-	public static void setWhiteCheck(boolean whiteCheck) {
-		GameStatus.whiteCheck = whiteCheck;
-	}
-
 	public static boolean isWhiteCheckMate() {
 		return GameStatus.whiteCheckMate;
-	}
-
-	public static void setWhiteCheckMate(boolean whiteCheckMate) {
-		GameStatus.whiteCheckMate = whiteCheckMate;
 	}
 
 	public static boolean isWhiteStaleMate() {
 		return GameStatus.whiteStaleMate;
 	}
 
-	public static void setWhiteStaleMate(boolean whiteStaleMate) {
-		GameStatus.whiteStaleMate = whiteStaleMate;
-	}
-	
 	public static boolean isAnyChecked() {
 		return GameStatus.blackCheck || GameStatus.whiteCheck;
 	}
@@ -67,6 +106,7 @@ public class GameStatus {
 	public static boolean isAnyStaleMated() {
 		return GameStatus.blackStaleMate || GameStatus.whiteStaleMate;
 	}
+	
 	
 	
 }

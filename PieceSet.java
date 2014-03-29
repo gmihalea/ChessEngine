@@ -3,9 +3,10 @@ import java.util.ArrayList;
 public class PieceSet {
 	
 	private static final int NO_OF_PIECES = 16;
-	
+		
 	private ArrayList<Piece> available = null;
 	private ArrayList<Piece> captured = null;
+	private int color = 0;
 	
 	/**Initializes this piece set ( with NO pieces ) */
 	public PieceSet() {
@@ -30,7 +31,8 @@ public class PieceSet {
 		
 		rowNumber = (color == PieceColor.WHITE) ? 2 : 7; 
 		for (int letter = Letter.A; letter <= Letter.H; letter++)
-			this.available.add(new Pawn(Board.translate(letter, rowNumber), color)); 
+			this.available.add(new Pawn(Board.translate(letter, rowNumber), color));
+		this.setColor(color);
 	}
 	
 	public void addPiece(Piece piece) {
@@ -51,5 +53,13 @@ public class PieceSet {
 				this.captured.add(this.available.remove(i));
 				break;
 			}
+	}
+
+	public int getColor() {
+		return color;
+	}
+
+	public void setColor(int color) {
+		this.color = color;
 	}
 }
