@@ -34,19 +34,17 @@ public abstract class Piece {
 		int opponentColor = (this.color == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
 		
 		for(Square square : validSquares) {		
-			if(!Piece.canBeCaptured(square, opponentColor))
+			if(!Piece.canBeCaptured(this, square, opponentColor))
 				result.add(square);
 		}
 		
 		return result;
 	}
 	
-	public static Square checkDirection(Square square, int letter, int number,
+	public static Square checkDirection(Piece piece, Square square, int letter, int number,
 			int opponentColor, int... opponents) {
 		
-		Square intermediate;
-		
-		intermediate = square;
+		Square intermediate = square;
 		while(Board.isSquareValid(intermediate.getLetter() + letter,
 				intermediate.getNumber() + number)) {
 			
@@ -62,7 +60,7 @@ public abstract class Piece {
 					break;
 				}
 				
-				if(intermediate.getPiece() == square.getPiece())
+				if(intermediate.getPiece() == piece)
 					continue;
 				break;
 			}
@@ -84,7 +82,7 @@ public abstract class Piece {
 					break;
 				}
 				
-				if(intermediate.getPiece() == square.getPiece())
+				if(intermediate.getPiece() == piece)
 					continue;
 				break;
 			}
@@ -93,7 +91,7 @@ public abstract class Piece {
 		return null;
 	}
 
-	public static boolean canBeCaptured(Square square, int opponentColor) {
+	public static boolean canBeCaptured(Piece piece, Square square, int opponentColor) {
 		
 		int k = 0;
 		int number = square.getNumber();
@@ -150,12 +148,12 @@ public abstract class Piece {
 					
 					if(k < 4) {
 						if(Math.abs(i) == Math.abs(j)) {
-							if(Piece.checkDirection(square, i, j, opponentColor,
+							if(Piece.checkDirection(piece, square, i, j, opponentColor,
 									PieceType.QUEEN, PieceType.BISHOP) != null)
 								return true;
 						}
 						else {
-							if(Piece.checkDirection(square, i, j, opponentColor,
+							if(Piece.checkDirection(piece, square, i, j, opponentColor,
 									PieceType.QUEEN, PieceType.ROOK) != null)
 								return true;
 						}
