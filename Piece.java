@@ -65,7 +65,6 @@ public abstract class Piece {
 		int letter = square.getLetter();
 		Square intermediate;
 		
-		//TODO: adauga pion
 		for(int i = -1; i <= 1; i++)
 			for(int j = -1; j <= 1; j++)
 				if(!(i == 0 && j == 0)) {
@@ -73,23 +72,62 @@ public abstract class Piece {
 						intermediate = Board.translate(letter + i, number + j);
 						if(intermediate.getPiece() != null) {
 							if(intermediate.getPiece().getColor() == opponentColor) {
+								
 								if(PieceType.getType(intermediate.getPiece()) == PieceType.KING)
 									return true;
-								break;
+								
+								if(Math.abs(i) == Math.abs(j)) {
+									if(Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.BISHOP))
+										return true;
+								}
+								else {
+									if(Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.ROOK))
+										return true;
+								}
 							}
-							else break;
 						}
 					}
 					
-					if(i != j) {
+					/*if(i != j) {
 						if(Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.BISHOP))
 							return true;
 					}
 					else {
 						if(Piece.checkDirection(square, i, j, opponentColor, PieceType.QUEEN, PieceType.ROOK))
 							return true;
-					}
+					}*/
 				}
+		
+		if(square.getPiece().getColor() == PieceColor.WHITE) {
+			if(Board.isSquareValid(square.getLetter() + 1, number + 1)) {
+				intermediate = Board.translate(square.getLetter() + 1, number + 1);
+				if(intermediate.getPiece().getColor() == opponentColor &&
+						PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
+					return true;
+			}
+			
+			if(Board.isSquareValid(square.getLetter() - 1, number + 1)) {
+				intermediate = Board.translate(square.getLetter() - 1, number + 1);
+				if(intermediate.getPiece().getColor() == opponentColor &&
+						PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
+					return true;
+			}
+		}
+		else {
+			if(Board.isSquareValid(square.getLetter() + 1, number - 1)) {
+				intermediate = Board.translate(square.getLetter() + 1, number - 1);
+				if(intermediate.getPiece().getColor() == opponentColor &&
+						PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
+					return true;
+			}
+			
+			if(Board.isSquareValid(square.getLetter() - 1, number - 1)) {
+				intermediate = Board.translate(square.getLetter() - 1, number - 1);
+				if(intermediate.getPiece().getColor() == opponentColor &&
+						PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
+					return true;
+			}
+		}
 		
 		for(int i = -2; i <= 2; i++) {
 			for(int j = -2; j <= 2; j++) {
