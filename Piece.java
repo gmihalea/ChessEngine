@@ -63,6 +63,7 @@ public abstract class Piece {
 	public static boolean canBeCaptured(Square square, int opponentColor) {
 		int number = square.getNumber();
 		int letter = square.getLetter();
+		int myColor = opponentColor == PieceColor.BLACK ? PieceColor.WHITE : PieceColor.BLACK;
 		Square intermediate;
 		
 		for(int i = -1; i <= 1; i++)
@@ -98,7 +99,7 @@ public abstract class Piece {
 					}*/
 				}
 		
-		if(square.getPiece().getColor() == PieceColor.WHITE) {
+		if(myColor == PieceColor.WHITE) {
 			if(Board.isSquareValid(square.getLetter() + 1, number + 1)) {
 				intermediate = Board.translate(square.getLetter() + 1, number + 1);
 				if(intermediate.getPiece().getColor() == opponentColor &&
