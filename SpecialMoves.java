@@ -22,18 +22,6 @@ public class SpecialMoves {
 		
 	}
 	
-	public static void enPassant(Pawn pawn){
-		Move move = Game.getHistory().peek();
-		PieceSet set = pawn.getColor() == PieceColor.WHITE ?  
-				Board.getWhiteSet() : Board.getBlackSet();
-		if(PieceType.getType(move.getEndSquare().getPiece()) == PieceType.PAWN && 
-				Math.abs(move.getEndSquare().getNumber() - move.getStartSquare().getNumber()) == 2)
-			set.capturePiece(move.getEndSquare().getPiece());
-		//Game.makeMove()
-		
-			
-	}
-	
 	public static String outOfCheck(){
 		Piece auxKing = Game.getMySet().getAvailablePieces().get(0);
 		ArrayList<Square> attackSquares = auxKing.getAtackSquares();
