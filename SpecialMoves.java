@@ -1,8 +1,14 @@
 public class SpecialMoves {
 	
 	public static void pawnPromotion(Pawn pawn){
-		//apeleaza capture;
-		//pune o regina in loc
+	
+		Square intermediate = pawn.getPosition();
+		PieceSet set = pawn.getColor() == PieceColor.WHITE ?  
+				Board.getWhiteSet() : Board.getBlackSet();
+		set.capturePiece(pawn);
+		Piece piece = new Queen(intermediate, set.getColor());
+		set.addPiece(piece);
+
 	}
 	
 	public static void smallCastling(){
