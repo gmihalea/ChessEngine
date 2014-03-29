@@ -89,7 +89,9 @@ public abstract class Piece {
 					}
 					break;
 				}
-				else break;
+				else
+					if(intermediate.getPiece() != currentPiece)
+						break;
 			}
 		}
 		
