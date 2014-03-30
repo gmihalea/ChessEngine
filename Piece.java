@@ -150,10 +150,12 @@ public abstract class Piece implements Comparable<Piece> {
 						Square s = null;
 						if(Math.abs(i) == Math.abs(j)) {
 							s = Piece.checkDirection(piece, square, i, j, opponentColor, PieceType.QUEEN, PieceType.BISHOP);
-							return s;
+							if(s != null)
+								return s;
 						}
 						else {
 							s = Piece.checkDirection(piece, square, i, j, opponentColor, PieceType.QUEEN, PieceType.ROOK);
+							if(s != null)
 								return s;
 						}
 					}
