@@ -3,6 +3,8 @@ public class Move {
 	
 	private Square startSquare;
 	private Square endSquare;
+	private char specialMove;
+	
 	
 	/** Constructor that gets a string */
 	public Move(String moveString) {
@@ -33,5 +35,13 @@ public class Move {
 	@Override
 	public String toString() {
 		return ("move " + startSquare.getCoords() + endSquare.getCoords()).toLowerCase() + '\n';
+	}
+
+	public char getSpecialMove() {
+		return specialMove;
+	}
+
+	public void setSpecialMove(char specialMove) {
+		this.specialMove = specialMove;
 	}
 }
