@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public abstract class Piece {
+public abstract class Piece implements Comparable<Piece> {
 	
 	private Square position;
 	private int color;
@@ -194,5 +194,12 @@ public abstract class Piece {
 	public int getColor() {
 		
 		return this.color;
+	}
+	
+	@Override
+	public int compareTo(Piece piece) {
+		if(this.position.compareTo(piece.getPosition()) == 0 && this.color == piece.color)
+			return 0;
+		return -1;
 	}
 }
