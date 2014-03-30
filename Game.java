@@ -10,7 +10,6 @@ public class Game {
 	private static long blackClock;
 	private static Stack<Move> history = new Stack<Move>();
 
-	@SuppressWarnings("unused")
 	private static long myClock;
 	private static PieceSet mySet;
 	private static PieceSet opponentSet;
@@ -37,18 +36,7 @@ public class Game {
 		//TODO: Check what set should I be
 	}
 
-	/** Switches turns */
-	public static void changeTurn() {
-		Game.turn = (Game.turn == PieceColor.WHITE) ? PieceColor.BLACK : PieceColor.WHITE;
-	}
-
-
-	private static String think(){
-		if(Game.mySet.getColor()==PieceColor.BLACK && GameStatus.isBlackCheck() || 
-		   Game.mySet.getColor()==PieceColor.WHITE && GameStatus.isWhiteCheck()	){
-			 return SpecialMoves.outOfCheck();
-		} else return getRandomMove();
-	}
+	
 
 
 
@@ -66,7 +54,7 @@ public class Game {
 			move.getStartSquare().getPiece() == null || 	// the piece on the start position has
 			move.getStartSquare().getPiece().getColor() != Game.turn || // colour of the turn				
 			move.getStartSquare().getPiece().getValidSquares().indexOf(move.getEndSquare()) < 0 )
-				return "Illegal move: " + moveString;	//^^ and the end square is a valid move
+				return "Illegal move: " + moveString + '\n';	//^^ and the end square is a valid move
 
 		makeMove(move); // If WinBoard sent a valid move, the move is made
 		history.push(move);
@@ -75,6 +63,15 @@ public class Game {
 		return think(); // Must be changed with a method that returns a clever move.
 	}
 
+	
+	private static String think(){
+		if(Game.mySet.getColor()==PieceColor.BLACK && GameStatus.isBlackCheck() || 
+		   Game.mySet.getColor()==PieceColor.WHITE && GameStatus.isWhiteCheck()	){
+			 return SpecialMoves.outOfCheck();
+		} else return getRandomMove();
+	}
+	
+	
 	/** Returns a random move (and changes the turn) */
 	// It changes the turn because it calls the makeMove() method
 	public static String getRandomMove() {
@@ -88,19 +85,18 @@ public class Game {
 			tries--;
 		} while ( pieceToMove.getValidSquares().size() == 0 && tries > 0);
 
-		if ( tries ==0 ) return "resign";
-
-		
+		if ( tries == 0 ) return "resign";
 		
 		ArrayList<Square> possibleMoves = pieceToMove.getValidSquares();
 		Move randMove = new Move (	pieceToMove.getPosition(),
 									possibleMoves.get((randGen.nextInt(possibleMoves.size()))));
-
-		makeMove(randMove);
+		
 		Piece p = randMove.getStartSquare().getPiece();
-		if(PieceType.getType(p) == PieceType.PAWN && (randMove.getEndSquare().getNumber() == 1 || randMove.getEndSquare().getNumber() == 1) )
-			SpecialMoves.pawnPromotion((Pawn)p);
-		return randMove.toString()+'q';
+		if(PieceType.getType(p) == PieceType.PAWN && 
+		  (randMove.getEndSquare().getNumber() == 1 || randMove.getEndSquare().getNumber() == 8) ) {
+			randMove.setSpecialMove('q');
+		}
+		return makeMove(randMove);
 	}
 
 
@@ -113,16 +109,21 @@ public class Game {
 	// We are SURE the move is VALID. It has been checked in earlier methods
 	public static String makeMove(Move move) {
 		if ( move.getEndSquare().getPiece() != null ) // If there is an ENEMY PIECE on END POSITION
-			opponentSet.capturePiece(move.getEndSquare().getPiece()); // we CAPTURE it
+			if ( turn == myColor )
+				opponentSet.capturePiece(move.getEndSquare().getPiece()); // we CAPTURE it
+			else
+				mySet.capturePiece(move.getEndSquare().getPiece());
 
 		move.getStartSquare().getPiece().setPosition(move.getEndSquare()); // We move our piece
 		move.getEndSquare().setPiece(move.getStartSquare().getPiece()); // on the end square
-		move.getStartSquare().setPiece(null); // And remove it from the old square
+		move.getStartSquare().setPiece(null); // And remove it from the initial square
 
 		switch(PieceType.getType(move.getEndSquare().getPiece())) {
 			
 			case PieceType.PAWN:
 				((Pawn)move.getEndSquare().getPiece()).setMoved(true);
+				if ( move.getSpecialMove() != 0 )
+					SpecialMoves.pawnPromotion( (Pawn)(move.getEndSquare().getPiece()), 'q' );
 				break;
 				
 			case PieceType.KING:
@@ -138,7 +139,7 @@ public class Game {
 		GameStatus.update(move.getEndSquare().getPiece().getColor());
 
 		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
-		return move.toString();
+		return move.toString() + '\n';
 	}
 
 
@@ -226,7 +227,7 @@ public class Game {
 
 	public static void setDefaultMode() {
 		mode=GameMode.DEFAULT;
-		mySet = turn == PieceColor.WHITE ? Board.getWhiteSet() : Board.getBlackSet();
+		mySet = turn == PieceColor.WHITE ? Board.getWhiteSet() : Board.getBlackSet(); 
 		myClock = turn == PieceColor.WHITE ? Game.whiteClock : Game.blackClock;
 	}
 
@@ -239,8 +240,10 @@ public class Game {
 		Game.myClock = (color == PieceColor.WHITE) ? Game.blackClock : Game.whiteClock;
 	}
 
-
-
+	/** Switches turns */
+	public static void changeTurn() {
+		Game.turn = (Game.turn == PieceColor.WHITE) ? PieceColor.BLACK : PieceColor.WHITE;
+	}
 
 	public static boolean validMove(Move move){
 		if(move.getStartSquare().getPiece() != null &&  move.getStartSquare().getPiece().getColor() == turn){
