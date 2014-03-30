@@ -80,7 +80,7 @@ public class Game {
 
 		int randomIndex;
 		int tries = 100;
-		do { randomIndex = 1 + randGen.nextInt(mySet.getAvailablePieces().size() - 1);
+		do { randomIndex = randGen.nextInt(mySet.getAvailablePieces().size());
 			pieceToMove = mySet.getAvailablePieces().get(randomIndex);
 			tries--;
 		} while ( ( PieceType.getType(pieceToMove) == PieceType.KING ? 
@@ -90,7 +90,8 @@ public class Game {
 
 		if ( tries == 0 ) return "resign";
 		
-		ArrayList<Square> possibleMoves = pieceToMove.getValidSquares();
+		ArrayList<Square> possibleMoves = ( PieceType.getType(pieceToMove) == PieceType.KING ?
+				pieceToMove.getCaptureFreeSquares() : pieceToMove.getValidSquares() );
 		Move randMove = new Move (	pieceToMove.getPosition(),
 									possibleMoves.get((randGen.nextInt(possibleMoves.size()))));
 		
