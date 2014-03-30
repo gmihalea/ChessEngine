@@ -34,7 +34,7 @@ public abstract class Piece implements Comparable<Piece> {
 		int opponentColor = (this.color == PieceColor.BLACK) ? PieceColor.WHITE : PieceColor.BLACK;
 		
 		for(Square square : validSquares) {		
-			if(!Piece.canBeCaptured(this, square, opponentColor))
+			if(Piece.canBeCaptured(this, square, opponentColor) == null)
 				result.add(square);
 		}
 		
@@ -91,7 +91,7 @@ public abstract class Piece implements Comparable<Piece> {
 		return null;
 	}
 
-	public static boolean canBeCaptured(Piece piece, Square square, int opponentColor) {
+	public static Square canBeCaptured(Piece piece, Square square, int opponentColor) {
 		
 		int k = 0;
 		int number = square.getNumber();
@@ -105,7 +105,7 @@ public abstract class Piece implements Comparable<Piece> {
 				if(intermediate.getPiece() != null
 						&& intermediate.getPiece().getColor() == opponentColor
 						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
-					return true;
+					return intermediate;
 			}
 			
 			if(Board.isSquareValid(letter - 1, number + 1)) {
@@ -113,7 +113,7 @@ public abstract class Piece implements Comparable<Piece> {
 				if(intermediate.getPiece() != null
 						&& intermediate.getPiece().getColor() == opponentColor
 						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
-					return true;
+					return intermediate;
 			}
 		}
 		else {
@@ -122,7 +122,7 @@ public abstract class Piece implements Comparable<Piece> {
 				if(intermediate.getPiece() != null
 						&& intermediate.getPiece().getColor() == opponentColor
 						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
-					return true;
+					return intermediate;
 			}
 			
 			if(Board.isSquareValid(letter - 1, number - 1)) {
@@ -130,7 +130,7 @@ public abstract class Piece implements Comparable<Piece> {
 				if(intermediate.getPiece() != null
 						&& intermediate.getPiece().getColor() == opponentColor
 						&& PieceType.getType(intermediate.getPiece()) == PieceType.PAWN)
-					return true;
+					return intermediate;
 			}
 		}
 		
@@ -143,19 +143,18 @@ public abstract class Piece implements Comparable<Piece> {
 						if(intermediate.getPiece() != null
 								&& intermediate.getPiece().getColor() == opponentColor
 								&& PieceType.getType(intermediate.getPiece()) == PieceType.KING)
-							return true;
+							return intermediate;
 					}
 					
 					if(k < 4) {
+						Square s = null;
 						if(Math.abs(i) == Math.abs(j)) {
-							if(Piece.checkDirection(piece, square, i, j, opponentColor,
-									PieceType.QUEEN, PieceType.BISHOP) != null)
-								return true;
+							s = Piece.checkDirection(piece, square, i, j, opponentColor, PieceType.QUEEN, PieceType.BISHOP);
+							return s;
 						}
 						else {
-							if(Piece.checkDirection(piece, square, i, j, opponentColor,
-									PieceType.QUEEN, PieceType.ROOK) != null)
-								return true;
+							s = Piece.checkDirection(piece, square, i, j, opponentColor, PieceType.QUEEN, PieceType.ROOK);
+								return s;
 						}
 					}
 					
@@ -172,13 +171,13 @@ public abstract class Piece implements Comparable<Piece> {
 						if(intermediate.getPiece() != null
 								&& intermediate.getPiece().getColor() == opponentColor
 								&& PieceType.getType(intermediate.getPiece()) == PieceType.KNIGHT)
-							return true;
+							return intermediate;
 					}
 				}
 			}
 		}
 			
-		return false;
+		return null;
 	}
 	
 	public Square getPosition() {
