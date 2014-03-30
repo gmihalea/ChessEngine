@@ -37,6 +37,8 @@ public class SpecialMoves {
 		Piece auxKing = Game.getMySet().getAvailablePieces().get(0);
 		ArrayList<Square> captureFreeSquares = auxKing.getCaptureFreeSquares();
 		int opponentColor = auxKing.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+		Square intermediate;
+		int min, max;
 		
 		if(captureFreeSquares.size() != 0) {
 			Move move;
@@ -57,6 +59,69 @@ public class SpecialMoves {
 						return move.toString() + "\n";
 					}
 			}
+			
+			if(s.getLetter() != auxKing.getPosition().getLetter() && s.getNumber() != auxKing.getPosition().getNumber()) {
+				min = Math.min(s.getLetter(), auxKing.getPosition().getLetter());
+				max = Math.max(s.getLetter(), auxKing.getPosition().getLetter());
+				int min1 = Math.min(s.getNumber(), auxKing.getPosition().getNumber());
+				int max1 = Math.max(s.getNumber(), auxKing.getPosition().getNumber());
+				
+				for(int i = min; i <= max; i++) {
+					if(Board.isSquareValid(min + i, min1 + i)) {
+						intermediate = Board.translate(min + i, min1 + i);
+						
+						for(Piece p : Game.getMySet().getAvailablePieces()) {
+							for(Square sqr : p.getValidSquares())
+								if(sqr == intermediate) {
+									Move move = new Move(p.getPosition(), intermediate);
+									Game.makeMove(move);
+									return move.toString() + "\n";
+								}
+						}
+					}
+				}
+			}
+			else {
+				if(s.getLetter() != auxKing.getPosition().getLetter()) {
+					min = Math.min(s.getLetter(), auxKing.getPosition().getLetter());
+					max = Math.max(s.getLetter(), auxKing.getPosition().getLetter());
+					
+					for(int i = min; i <= max; i++) {
+						if(Board.isSquareValid(min + i, s.getNumber())) {
+							intermediate = Board.translate(min + i, s.getNumber());
+							
+							for(Piece p : Game.getMySet().getAvailablePieces()) {
+								for(Square sqr : p.getValidSquares())
+									if(sqr == intermediate) {
+										Move move = new Move(p.getPosition(), intermediate);
+										Game.makeMove(move);
+										return move.toString() + "\n";
+									}
+							}
+						}
+					}
+				}
+				else {
+					min = Math.min(s.getNumber(), auxKing.getPosition().getNumber());
+					max = Math.max(s.getNumber(), auxKing.getPosition().getNumber());
+					
+					for(int i = min; i <= max; i++) {
+						if(Board.isSquareValid(s.getLetter(), min + i)) {
+							intermediate = Board.translate(s.getLetter(), min + i);
+							
+							for(Piece p : Game.getMySet().getAvailablePieces()) {
+								for(Square sqr : p.getValidSquares())
+									if(sqr == intermediate) {
+										Move move = new Move(p.getPosition(), intermediate);
+										Game.makeMove(move);
+										return move.toString() + "\n";
+									}
+							}
+						}
+					}
+				}
+			}
+			
 			return "resign";
 		}
 	}
