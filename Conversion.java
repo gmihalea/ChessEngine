@@ -46,7 +46,9 @@ public class Conversion {
 			if ( command.contains("time"))		continue; // YOUR TIME
 			if ( command.contains("otim"))		continue; // OPPONENT TIME
 			if ( command.contains("accepted"))	continue;
+			if ( command.contains("undo"))		continue;
 			if ( command.contains("xboard"))	continue;
+			if ( command.contains("computer"))	continue;
 			if ( command.contains("white"))		continue; /* Set White on move. Set the engine to play Black. Stop clocks. */
 			if ( command.contains("black"))		continue;/* Set Black on move. Set the engine to play White. Stop clocks. */
 			if ( command.contains("resign"))	continue;
