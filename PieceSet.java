@@ -47,16 +47,9 @@ public class PieceSet {
 		return this.captured;
 	}
 	
-	public void capturePiece(Piece piece) {
-		for(int i = 0; i < this.available.size(); i++)
 
-			if(this.available.get(i).equals(piece)) {
-				if(this.available.get(i).compareTo(piece) == 0) {
-					this.available.get(i).getPosition().setPiece(null);
-					this.captured.add(this.available.remove(i));
-					break;
-			}
-	}
+	
+	
 
 	public int getColor() {
 		return color;
