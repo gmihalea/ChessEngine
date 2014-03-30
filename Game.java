@@ -83,7 +83,10 @@ public class Game {
 		do { randomIndex = 1 + randGen.nextInt(mySet.getAvailablePieces().size() - 1);
 			pieceToMove = mySet.getAvailablePieces().get(randomIndex);
 			tries--;
-		} while ( pieceToMove.getValidSquares().size() == 0 && tries > 0);
+		} while ( ( PieceType.getType(pieceToMove) == PieceType.KING ? 
+						pieceToMove.getCaptureFreeSquares().size() == 0 : 
+						pieceToMove.getValidSquares().size() == 0 ) 
+					&& tries > 0);
 
 		if ( tries == 0 ) return "resign";
 		
@@ -139,7 +142,7 @@ public class Game {
 		GameStatus.update(move.getEndSquare().getPiece().getColor());
 
 		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
-		return move.toString() + '\n';
+		return move.toString();
 	}
 
 

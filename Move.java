@@ -11,10 +11,13 @@ public class Move {
 		if ( moveString.length() < 4 ) {
 			this.startSquare = null;
 			this.endSquare = null;
+			this.specialMove = 0;
 		}
 		else {
 			this.startSquare = Board.getFromString(moveString.substring(0,2));
 			this.endSquare = Board.getFromString(moveString.substring(2,4));
+			if ( moveString.length() == 5 ) this.specialMove = moveString.charAt(4);
+			else this.specialMove = 0;
 		}
 	}
 	
