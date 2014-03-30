@@ -26,6 +26,7 @@ public class Game {
 	public static void initialize() {
 		Board.initialize();
 		Game.whiteClock = Game.blackClock = Game.myClock = 0;
+		Game.mode = GameMode.DEFAULT;
 		Game.mySet = Board.getBlackSet();
 		Game.opponentSet = Board.getWhiteSet();
 		Game.turn = PieceColor.WHITE;
