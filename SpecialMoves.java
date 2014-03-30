@@ -11,7 +11,6 @@ public class SpecialMoves {
 		set.capturePiece(pawn);
 		Piece piece = new Queen(intermediate, set.getColor());
 		set.addPiece(piece);
-
 	}
 	
 	public static void smallCastling(){
@@ -31,7 +30,7 @@ public class SpecialMoves {
 			int m = randGen.nextInt(captureFreeSquares.size());
 			move = new Move(auxKing.getPosition(),captureFreeSquares.get(m));
 			Game.makeMove(move);
-			return move.toString();
+			return move.toString()+"\n";
 		} else {
 		//altfel incearca sa blocheze cu alta piesa
 		return "resign";
