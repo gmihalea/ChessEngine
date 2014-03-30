@@ -1,5 +1,5 @@
 
-public class Square {
+public class Square implements Comparable<Square> {
 	
 	private int letter;
 	private int number;
@@ -59,5 +59,12 @@ public class Square {
 		
 		// Program never reaches this far.
 		return "";
+	}
+
+	@Override
+	public int compareTo(Square square) {
+		if(square.getLetter() != this.getLetter())
+			return square.getLetter() - this.getLetter();
+		return square.getNumber() - this.getNumber();
 	}
 }

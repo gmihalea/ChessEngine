@@ -49,7 +49,12 @@ public class PieceSet {
 	
 	public void capturePiece(Piece piece) {
 		for(int i = 0; i < this.available.size(); i++)
+<<<<<<< HEAD
 			if(this.available.get(i).equals(piece)) {
+=======
+			if(this.available.get(i).compareTo(piece) == 0) {
+				this.available.get(i).getPosition().setPiece(null);
+>>>>>>> 9d04b080863eeba3f900ee7522e87417f5323aa1
 				this.captured.add(this.available.remove(i));
 				break;
 			}
