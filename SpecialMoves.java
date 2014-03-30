@@ -3,13 +3,24 @@ import java.util.Random;
 
 public class SpecialMoves {
 	
-	public static void pawnPromotion(Pawn pawn){
+	public static void pawnPromotion(Pawn pawn, char c){
 	
 		Square intermediate = pawn.getPosition();
 		PieceSet set = pawn.getColor() == PieceColor.WHITE ?  
 				Board.getWhiteSet() : Board.getBlackSet();
 		set.capturePiece(pawn);
-		Piece piece = new Queen(intermediate, set.getColor());
+		Piece piece;
+		
+		switch (c) {
+        case 'r': piece = new Rook(intermediate, set.getColor());
+                 break;
+        case 'k': piece = new Knight(intermediate, set.getColor());
+                 break;
+        case 'b': piece = new Bishop(intermediate, set.getColor());
+                 break;
+        default:  piece = new Queen(intermediate, set.getColor());
+		}
+		
 		set.addPiece(piece);
 
 	}
