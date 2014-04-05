@@ -78,7 +78,7 @@ public class TEST_BOARD {
 		
 		*/
 		// CAN BE CAPTURED
-		
+		/*
 		checkme = new Queen (Board.translate(Letter.D, 4), white);
 		Board.addPiece(checkme);
 		
@@ -91,7 +91,7 @@ public class TEST_BOARD {
 		Board.addPiece(new Rook		(Board.translate(Letter.H, 5), black) );
 		Board.addPiece(new King		(Board.translate(Letter.B, 8), white) );
 		Board.addPiece(new Pawn		(Board.translate(Letter.C, 7), black) );
-		
+		*/
 		
 		//SAH
 //		int rowNumber = 8;
@@ -108,9 +108,20 @@ public class TEST_BOARD {
 		
 		
 		
+		// CASTLING
+		checkme = new King			(Board.translate(Letter.E, 8), black);
+		Rook rook1 = new Rook		(Board.translate(Letter.A, 8), black);
+		Rook rook2 = new Rook		(Board.translate(Letter.H, 8), black);
+		//rook1.setMoved(true);
+		//rook2.setMoved(true);
+		//((King) checkme).setMoved(true);
 		
+		Board.addPiece( rook1 );
+		Board.addPiece( rook2 );
 		
-		
+		//Board.addPiece(new Pawn		(Board.translate(Letter.E, 6), white) );
+		//Board.addPiece(new Rook		(Board.translate(Letter.C, 4), white) );
+		//Board.addPiece(new Rook		(Board.translate(Letter.G, 4), white) );
 		
 		
 		// OUTPUT
@@ -120,10 +131,10 @@ public class TEST_BOARD {
 		try {	out = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("BoardTest.out"), "UTF-8")); out.write( Board.printTable() ); } catch (IOException e) {} finally { try { out.close(); } catch (IOException e) {} }
 		
 		// BoardTest.txt : ASCII ART: TABLE INTERPRETATION & checkme's CAPTURE FREE squares
-		 try {	out = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("BoardTest.txt"), "UTF-8")); out.write( Board.printTableShowMoves(checkme.getCaptureFreeSquares() )); } catch (IOException e) {} finally { try { out.close(); } catch (IOException e) {} }
+		// try {	out = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("BoardTest.txt"), "UTF-8")); out.write( Board.printTableShowMoves(checkme.getCaptureFreeSquares() )); } catch (IOException e) {} finally { try { out.close(); } catch (IOException e) {} }
 		
-		// BoardTest.txt : ASCII ART: TABLE INTERPRETATION & checkme's POSSIBLE square MOVES
-		 // try {	out = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("BoardTest.txt"), "UTF-8")); out.write( Board.printTableShowMoves(checkme.getValidSquares() )); } catch (IOException e) {} finally { try { out.close(); } catch (IOException e) {} }
+		// BoardTest.txt : ASCII ART: TABLE INTERPRETATION & checkme's POSSIBLE MOVES squares
+		 try {	out = new BufferedWriter(new OutputStreamWriter( new FileOutputStream("BoardTest.txt"), "UTF-8")); out.write( Board.printTableShowMoves(checkme.getValidSquares() )); } catch (IOException e) {} finally { try { out.close(); } catch (IOException e) {} }
 		
 	}
 	
