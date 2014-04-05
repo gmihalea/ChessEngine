@@ -12,24 +12,32 @@ public class SpecialMoves {
 		Piece piece;
 		
 		switch (c) {
-	        case 'r': piece = new Rook(intermediate, set.getColor());
-	                 break;
-	        case 'k': piece = new Knight(intermediate, set.getColor());
-	                 break;
-	        case 'b': piece = new Bishop(intermediate, set.getColor());
-	                 break;
-	        default:  piece = new Queen(intermediate, set.getColor());
+			case 'r': piece = new Rook	(intermediate, set.getColor());
+				break;
+			case 'k': piece = new Knight(intermediate, set.getColor());
+				break;
+			case 'b': piece = new Bishop(intermediate, set.getColor());
+				break;
+			default:  piece = new Queen	(intermediate, set.getColor());
 		}
 		
 		set.addPiece(piece);
 	}
 	
+	/**Moves the rook in order to perform a Kingside Castling*/
 	public static void smallCastling(){
-		
+		Game.move( new Move(
+				Board.translate(Letter.H, Game.getMySet().getColor() == PieceColor.WHITE ? 1 : 8), 
+				Board.translate(Letter.F, Game.getMySet().getColor() == PieceColor.WHITE ? 1 : 8)
+				));
 	}
 
+	/**Moves the rook in order to perform a Queenside Castling*/
 	public static void bigCastling() {
-		
+		Game.move( new Move(
+				Board.translate(Letter.A, Game.getMySet().getColor() == PieceColor.WHITE ? 1 : 8), 
+				Board.translate(Letter.D, Game.getMySet().getColor() == PieceColor.WHITE ? 1 : 8)
+				));
 	}
 	
 	public static String outOfCheck() {
@@ -53,6 +61,8 @@ public class SpecialMoves {
 		Square s = Piece.canBeCaptured(auxKing, auxKing.getPosition(), opponentColor);
 		
 		for(Piece p : Game.getMySet().getAvailablePieces()) {
+			if(PieceType.getType(p) == PieceType.KING)
+				continue;
 			for(Square sqr : p.getValidSquares())
 				if(sqr == s) {
 					Move move = new Move(p.getPosition(), s);
