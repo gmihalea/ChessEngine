@@ -45,7 +45,7 @@ public class SpecialMoves {
 			Random randGen = new Random();
 			int m = randGen.nextInt(captureFreeSquares.size());
 			move = new Move(auxKing.getPosition(), captureFreeSquares.get(m));
-			Game.makeMove(move);
+			Game.moveToWinboard(move);
 			return move.toString() + "\n";
 		}
 		
@@ -56,7 +56,7 @@ public class SpecialMoves {
 			for(Square sqr : p.getValidSquares())
 				if(sqr == s) {
 					Move move = new Move(p.getPosition(), s);
-					Game.makeMove(move);
+					Game.moveToWinboard(move);
 					return move.toString() + "\n";
 				}
 		}
@@ -81,7 +81,7 @@ public class SpecialMoves {
 				for(Square sqr : p.getValidSquares())
 					if(sqr == intermediate) {
 						Move move = new Move(p.getPosition(), intermediate);
-						Game.makeMove(move);
+						Game.moveToWinboard(move);
 						return move.toString() + "\n";
 					}
 			}

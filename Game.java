@@ -59,7 +59,7 @@ public class Game {
 			move.getStartSquare().getPiece().getValidSquares().indexOf(move.getEndSquare()) < 0 )
 				return "Illegal move: " + moveString + '\n';	//^^ and the end square is a valid move
 
-		makeMove(move); // If WinBoard sent a valid move, the move is made
+		moveToWinboard(move); // If WinBoard sent a valid move, the move is made
 		history.push(move);
 		if ( Game.mode == GameMode.FORCE) return "";	// We don't move when in FORCE mode
 
@@ -86,10 +86,10 @@ public class Game {
 		do { randomIndex = randGen.nextInt(mySet.getAvailablePieces().size());
 			pieceToMove = mySet.getAvailablePieces().get(randomIndex);
 			tries--;
-		} while ( ( PieceType.getType(pieceToMove) == PieceType.KING ? 
-						pieceToMove.getCaptureFreeSquares().size() == 0 : 
-						pieceToMove.getValidSquares().size() == 0 ) 
-					&& tries > 0);
+		} while ( ( PieceType.getType(pieceToMove) == PieceType.KING ? // Repeta cat timp piesa
+						pieceToMove.getCaptureFreeSquares().size() == 0 : // alesa nu are mutari
+						pieceToMove.getValidSquares().size() == 0 ) // posibile, (pt rege: nu are
+					&& tries > 0);							// mutari in care sa nu intre in sah)
 
 		if ( tries == 0 ) return "resign";
 		
@@ -99,138 +99,71 @@ public class Game {
 									possibleMoves.get((randGen.nextInt(possibleMoves.size()))));
 		
 		Piece p = randMove.getStartSquare().getPiece();
+		
+		// If the pawn reached the end of the table, he becomes a queen
 		if(PieceType.getType(p) == PieceType.PAWN && 
 		  (randMove.getEndSquare().getNumber() == 1 || randMove.getEndSquare().getNumber() == 8) ) {
 			randMove.setSpecialMove('q');
 		}
-		return makeMove(randMove);
+		return moveToWinboard(randMove);
 	}
-
 
 	public static PieceSet getMySet() {
 		return mySet;
 	}
 
-	/** Makes a move, and then changes the turn.
+	/** Makes a move, changes the turn, and returns the move to winboard.
 	 * @return the move in a string interpretation*/
 	// We are SURE the move is VALID. It has been checked in earlier methods
-	public static String makeMove(Move move) {
-		if ( move.getEndSquare().getPiece() != null ) // If there is an ENEMY PIECE on END POSITION
+	public static String moveToWinboard(Move move) {
+		// Move the piece and change the turn
+		simulateMove(move);
+
+		// Tell winboard about the move
+		return move.toString();
+	}
+	
+	/** Makes a move on the table and changes the turn (stores move in history) */
+	public static void simulateMove(Move move) {
+		move(move);
+		GameStatus.update(move.getEndSquare().getPiece().getColor());
+		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
+	}
+	
+	/**Moves the piece on the board without changing the turn, and stores it
+	 * in the history*/
+	public static void move(Move move) {
+		
+		// Check if there is an ENEMY PIECE on END POSITION and CAPTURE it
+		if ( move.getEndSquare().getPiece() != null ) 
 			if ( turn == myColor )
-				opponentSet.capturePiece(move.getEndSquare().getPiece()); // we CAPTURE it
+				opponentSet.capturePiece(move.getEndSquare().getPiece());
 			else
 				mySet.capturePiece(move.getEndSquare().getPiece());
-
+		
+		// Place the piece on the new spot
 		move.getStartSquare().getPiece().setPosition(move.getEndSquare()); // We move our piece
 		move.getEndSquare().setPiece(move.getStartSquare().getPiece()); // on the end square
 		move.getStartSquare().setPiece(null); // And remove it from the initial square
-
+		
+		// Mark the piece as moved, if it'a a king, rook, or a pawn, so they can't make any
+		//	more special moves.
 		switch(PieceType.getType(move.getEndSquare().getPiece())) {
-			
 			case PieceType.PAWN:
 				((Pawn)move.getEndSquare().getPiece()).setMoved(true);
 				if ( move.getSpecialMove() != 0 )
-					SpecialMoves.pawnPromotion( (Pawn)(move.getEndSquare().getPiece()), 'q' );
+					SpecialMoves.pawnPromotion( (Pawn)(move.getEndSquare().getPiece()), 
+							move.getSpecialMove() );
 				break;
-				
 			case PieceType.KING:
 				((King)move.getEndSquare().getPiece()).setMoved(true);
 				break;
-				
 			case PieceType.ROOK:
 				((Rook)move.getEndSquare().getPiece()).setMoved(true);
 				break;
 		}
-		
 		//history.add(move);
-		GameStatus.update(move.getEndSquare().getPiece().getColor());
-
-		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
-		return move.toString();
 	}
-
-
-
-
-	/*
-	public static void makeMove(Move move) {
-		if(move.getEndSquare().getPiece() != null) {
-			if(Game.mySet == Board.getWhiteSet())
-				Board.getBlackSet().capturePiece(move.getEndSquare().getPiece());
-			else
-				Board.getWhiteSet().capturePiece(move.getEndSquare().getPiece());
-		}
-		
-		move.getEndSquare().setPiece(move.getStartSquare().getPiece());
-		move.getStartSquare().setPiece(null);
-		move.getEndSquare().getPiece().setPosition(move.getEndSquare());
-		
-		switch(PieceType.getType(move.getEndSquare().getPiece())) {
-		
-			case PieceType.PAWN:
-				((Pawn)move.getEndSquare().getPiece()).setMoved(true);
-				break;
-				
-			case PieceType.KING:
-				((King)move.getEndSquare().getPiece()).setMoved(true);
-				break;
-				
-			case PieceType.ROOK:
-				((Rook)move.getEndSquare().getPiece()).setMoved(true);
-				break;
-		}
-		
-		Game.changeTurn();
-	}
-	
-	//TODO: COD URAT !!! TREBUIE OPTIMIZAT
-	public static String play(Move move) {
-		String result="";
-		
-		if(move!=null) {
-		if (!validMove(move)){
-			result = "Illegal move: " + move.toString();
-			return result;
-		} else {
-			if(mode==GameMode.FORCE){
-					result = ""; 
-					makeMove(move);
-			} else {
-				makeMove(move);
-				Random r = new Random();
-				Piece pieceToMove;
-				do {int x = r.nextInt(mySet.getAvailablePieces().size());
-					pieceToMove = mySet.getAvailablePieces().get(x);
-				} while ( pieceToMove.getValidSquares().size() == 0 );
-				
-				ArrayList<Square> possibleMoves = pieceToMove.getValidSquares();
-				Move randMove = new Move (
-						pieceToMove.getPosition(), possibleMoves.get((r.nextInt(possibleMoves.size()))));
-				makeMove(randMove);
-				result = randMove.toString();
-			}
-		}
-		
-		} else {
-			Random r = new Random();
-			Piece pieceToMove;
-			System.out.println(mySet.getAvailablePieces().get(1).getColor());
-			do {int x = r.nextInt(mySet.getAvailablePieces().size());
-				pieceToMove = mySet.getAvailablePieces().get(x);
-			} while ( pieceToMove.getValidSquares().size() == 0 );
-			
-			ArrayList<Square> possibleMoves = pieceToMove.getValidSquares();
-			Move randMove = new Move (
-					pieceToMove.getPosition(), possibleMoves.get((r.nextInt(possibleMoves.size()))));
-			makeMove(randMove);
-			result = randMove.toString();
-		}
-		
-		return result;
-	}
-	
-	*/
-
 
 	public static void setDefaultMode() {
 		mode=GameMode.DEFAULT;

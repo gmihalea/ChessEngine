@@ -66,6 +66,7 @@ public class GameStatus {
 					whiteStaleMate=true;
 			}
 		}
+		/*
 		System.out.println(
 				"\n blackCheck: " 		+ blackCheck 		+
 				"\n blackCheckMate: " 	+ blackCheckMate 	+
@@ -73,6 +74,7 @@ public class GameStatus {
 				"\n whiteCheck: " 		+ whiteCheck 		+
 				"\n whiteCheckMate: " 	+ whiteCheckMate 	+
 				"\n whiteStaleMate: " 	+ whiteStaleMate 	+ '\n');
+		*/
 	}
 	
 	public static boolean isBlackCheck() {
