@@ -10,11 +10,13 @@ public class Game {
 	private static long blackClock;
 	private static Stack<Move> history = new Stack<Move>();
 
+	@SuppressWarnings("unused")
 	private static long myClock;
 	private static PieceSet mySet;
 	private static PieceSet opponentSet;
 	private static int turn;
 	private static int myColor;
+	@SuppressWarnings("unused")
 	private static int opponentColor;
 
 	/** Creates a new game:
