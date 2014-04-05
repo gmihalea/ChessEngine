@@ -156,7 +156,15 @@ public class Game {
 							move.getSpecialMove() );
 				break;
 			case PieceType.KING:
+				// Checking if a castling move has been made
+				if ( move.getStartSquare().getLetter() - move.getEndSquare().getLetter() == 2 )
+					SpecialMoves.bigCastling();
+				if ( move.getStartSquare().getLetter() - move.getEndSquare().getLetter() == -2 )
+					SpecialMoves.smallCastling();
+					
 				((King)move.getEndSquare().getPiece()).makeMove();
+				
+				
 				break;
 			case PieceType.ROOK:
 				((Rook)move.getEndSquare().getPiece()).makeMove();
