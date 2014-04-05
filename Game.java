@@ -39,7 +39,7 @@ public class Game {
 		//TODO: Check what set should I be
 	}
 
-	
+	public static int getTurn() { return turn; }
 
 
 

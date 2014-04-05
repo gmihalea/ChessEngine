@@ -26,18 +26,14 @@ public class SpecialMoves {
 	
 	/**Moves the rook in order to perform a Kingside Castling*/
 	public static void smallCastling(){
-		Game.move( new Move(
-				Board.translate(Letter.H, Game.getMySet().getColor() == PieceColor.WHITE ? 1 : 8), 
-				Board.translate(Letter.F, Game.getMySet().getColor() == PieceColor.WHITE ? 1 : 8)
-				));
+		int row = Game.getTurn() == PieceColor.WHITE ? 1 : 8;
+		Game.move( new Move( Board.translate(Letter.H, row),  Board.translate(Letter.F, row) ));
 	}
 
 	/**Moves the rook in order to perform a Queenside Castling*/
 	public static void bigCastling() {
-		Game.move( new Move(
-				Board.translate(Letter.A, Game.getMySet().getColor() == PieceColor.WHITE ? 1 : 8), 
-				Board.translate(Letter.D, Game.getMySet().getColor() == PieceColor.WHITE ? 1 : 8)
-				));
+		int row = Game.getTurn() == PieceColor.WHITE ? 1 : 8;
+		Game.move( new Move( Board.translate(Letter.A, row),  Board.translate(Letter.D, row) ));
 	}
 	
 	public static String outOfCheck() {
