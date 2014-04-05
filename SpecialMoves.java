@@ -38,9 +38,9 @@ public class SpecialMoves {
 		ArrayList<Square> captureFreeSquares = auxKing.getCaptureFreeSquares();
 		int opponentColor = auxKing.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
 		Square intermediate;
-		int min, max;
 		
 		if(captureFreeSquares.size() != 0) {
+			// Move the king out of check.
 			Move move;
 			Random randGen = new Random();
 			int m = randGen.nextInt(captureFreeSquares.size());
@@ -48,81 +48,48 @@ public class SpecialMoves {
 			Game.makeMove(move);
 			return move.toString() + "\n";
 		}
-		else {
-			Square s = Piece.canBeCaptured(auxKing, auxKing.getPosition(), opponentColor);
-			
+		
+		// Try to capture the piece that threatens the king.
+		Square s = Piece.canBeCaptured(auxKing, auxKing.getPosition(), opponentColor);
+		
+		for(Piece p : Game.getMySet().getAvailablePieces()) {
+			for(Square sqr : p.getValidSquares())
+				if(sqr == s) {
+					Move move = new Move(p.getPosition(), s);
+					Game.makeMove(move);
+					return move.toString() + "\n";
+				}
+		}
+		
+		// Try to block the piece that threatens the king.
+		// A knight cannot be blocked.
+		if(PieceType.getType(s.getPiece()) == PieceType.KNIGHT)
+			return "resign\n";
+		
+		int letterDirection = s.getLetter() - auxKing.getPosition().getLetter();
+		int numberDirection = s.getNumber() - auxKing.getPosition().getNumber();
+		letterDirection = letterDirection < 0 ? -1 : (letterDirection > 0 ? 1 : 0);
+		numberDirection = numberDirection < 0 ? -1 : (numberDirection > 0 ? 1 : 0);
+		
+		intermediate = Board.translate(auxKing.getPosition().getLetter() + letterDirection,
+				auxKing.getPosition().getNumber() + numberDirection);
+		while(intermediate.compareTo(s) != 0) {
 			for(Piece p : Game.getMySet().getAvailablePieces()) {
+				if(PieceType.getType(p) == PieceType.KING)
+					continue;
+				
 				for(Square sqr : p.getValidSquares())
-					if(sqr == s) {
-						Move move = new Move(p.getPosition(), s);
+					if(sqr == intermediate) {
+						Move move = new Move(p.getPosition(), intermediate);
 						Game.makeMove(move);
 						return move.toString() + "\n";
 					}
 			}
 			
-			if(s.getLetter() != auxKing.getPosition().getLetter() && s.getNumber() != auxKing.getPosition().getNumber()) {
-				min = Math.min(s.getLetter(), auxKing.getPosition().getLetter());
-				max = Math.max(s.getLetter(), auxKing.getPosition().getLetter());
-				int min1 = Math.min(s.getNumber(), auxKing.getPosition().getNumber());
-				int max1 = Math.max(s.getNumber(), auxKing.getPosition().getNumber());
-				
-				for(int i = min; i <= max; i++) {
-					if(Board.isSquareValid(min + i, min1 + i)) {
-						intermediate = Board.translate(min + i, min1 + i);
-						
-						for(Piece p : Game.getMySet().getAvailablePieces()) {
-							for(Square sqr : p.getValidSquares())
-								if(sqr == intermediate) {
-									Move move = new Move(p.getPosition(), intermediate);
-									Game.makeMove(move);
-									return move.toString() + "\n";
-								}
-						}
-					}
-				}
-			}
-			else {
-				if(s.getLetter() != auxKing.getPosition().getLetter()) {
-					min = Math.min(s.getLetter(), auxKing.getPosition().getLetter());
-					max = Math.max(s.getLetter(), auxKing.getPosition().getLetter());
-					
-					for(int i = min; i <= max; i++) {
-						if(Board.isSquareValid(min + i, s.getNumber())) {
-							intermediate = Board.translate(min + i, s.getNumber());
-							
-							for(Piece p : Game.getMySet().getAvailablePieces()) {
-								for(Square sqr : p.getValidSquares())
-									if(sqr == intermediate) {
-										Move move = new Move(p.getPosition(), intermediate);
-										Game.makeMove(move);
-										return move.toString() + "\n";
-									}
-							}
-						}
-					}
-				}
-				else {
-					min = Math.min(s.getNumber(), auxKing.getPosition().getNumber());
-					max = Math.max(s.getNumber(), auxKing.getPosition().getNumber());
-					
-					for(int i = min; i <= max; i++) {
-						if(Board.isSquareValid(s.getLetter(), min + i)) {
-							intermediate = Board.translate(s.getLetter(), min + i);
-							
-							for(Piece p : Game.getMySet().getAvailablePieces()) {
-								for(Square sqr : p.getValidSquares())
-									if(sqr == intermediate) {
-										Move move = new Move(p.getPosition(), intermediate);
-										Game.makeMove(move);
-										return move.toString() + "\n";
-									}
-							}
-						}
-					}
-				}
-			}
-			
-			return "resign";
+			intermediate = Board.translate(intermediate.getLetter() + letterDirection,
+					intermediate.getNumber() + numberDirection);
 		}
+		
+		return "resign\n";
 	}
 }
