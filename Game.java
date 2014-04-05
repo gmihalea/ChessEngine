@@ -125,14 +125,6 @@ public class Game {
 	
 	/** Makes a move on the table and changes the turn (stores move in history) */
 	public static void simulateMove(Move move) {
-		move(move);
-		GameStatus.update(move.getEndSquare().getPiece().getColor());
-		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
-	}
-	
-	/**Moves the piece on the board without changing the turn, and stores it
-	 * in the history*/
-	public static void move(Move move) {
 		
 		// Check if there is an ENEMY PIECE on END POSITION and CAPTURE it
 		if ( move.getEndSquare().getPiece() != null ) 
@@ -141,13 +133,10 @@ public class Game {
 			else
 				mySet.capturePiece(move.getEndSquare().getPiece());
 		
-		// Place the piece on the new spot
-		move.getStartSquare().getPiece().setPosition(move.getEndSquare()); // We move our piece
-		move.getEndSquare().setPiece(move.getStartSquare().getPiece()); // on the end square
-		move.getStartSquare().setPiece(null); // And remove it from the initial square
+		move(move);
 		
 		// Mark the piece as moved, if it'a a king, rook, or a pawn, so they can't make any
-		// more special moves.
+				// more special moves.
 		switch(PieceType.getType(move.getEndSquare().getPiece())) {
 			case PieceType.PAWN:
 				((Pawn)move.getEndSquare().getPiece()).makeMove();
@@ -170,6 +159,19 @@ public class Game {
 				((Rook)move.getEndSquare().getPiece()).makeMove();
 				break;
 		}
+		GameStatus.update(move.getEndSquare().getPiece().getColor());
+		Game.changeTurn(); // The turn will only get changed AFTER I think my next move.
+	}
+	
+	/**Moves the piece on the board without changing the turn, and stores it
+	 * in the history*/
+	public static void move(Move move) {
+		
+		// Place the piece on the new spot
+		move.getStartSquare().getPiece().setPosition(move.getEndSquare()); // We move our piece
+		move.getEndSquare().setPiece(move.getStartSquare().getPiece()); // on the end square
+		move.getStartSquare().setPiece(null); // And remove it from the initial square
+
 		//history.add(move);
 	}
 	
