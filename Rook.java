@@ -2,14 +2,18 @@ import java.util.ArrayList;
 
 public class Rook extends Piece {
 	
-	private boolean moved;
+	private int moved;
 
 	public boolean hasMoved() {
-		return moved;
+		return !(moved == 0);
 	}
 
-	public void setMoved(boolean moved) {
-		this.moved = moved;
+	public void makeMove() {
+		this.moved ++;
+	}
+	
+	public void undoMove() {
+		this.moved --;
 	}
 
 	public Rook(Square position, int color) {

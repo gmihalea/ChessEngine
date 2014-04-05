@@ -2,14 +2,18 @@ import java.util.ArrayList;
 
 public class Pawn extends Piece {
 	
-	private boolean moved;
+	private int moved;
 
 	public boolean hasMoved() {
-		return moved;
+		return !(moved == 0);
 	}
-
-	public void setMoved(boolean moved) {
-		this.moved = moved;
+	
+	public void makeMove() {
+		this.moved ++;
+	}
+	
+	public void undoMove() {
+		this.moved --;
 	}
 
 	public Pawn(Square position, int color) {
@@ -45,7 +49,7 @@ public class Pawn extends Piece {
 		
 		//Daca nu a mai fost mutat si pot muta peste 2 patratele
 		howToMove2 = (this.getColor() == PieceColor.WHITE) ? number + 2 : number - 2;
-		if(!this.moved && Board.isSquareValid(letter, howToMove2)) {
+		if(!this.hasMoved() && Board.isSquareValid(letter, howToMove2)) {
 			intermediate = Board.translate(letter, howToMove2);
 			if(intermediate.getPiece() == null && result.contains(Board.translate(letter, howToMove1)))
 				result.add(intermediate);

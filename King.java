@@ -2,14 +2,18 @@ import java.util.ArrayList;
 
 public class King extends Piece {
 	
-	private boolean moved;
+	private int moved;
 
 	public boolean hasMoved() {
-		return moved;
+		return !(moved == 0);
 	}
 
-	public void setMoved(boolean moved) {
-		this.moved = moved;
+	public void makeMove() {
+		this.moved ++;
+	}
+	
+	public void undoMove() {
+		this.moved --;
 	}
 
 	public King(Square position, int color) {
@@ -45,7 +49,7 @@ public class King extends Piece {
 	private boolean isKingsideCastlingPossible() {
 	//Checking if:
 		// The king hasn't moved
-		if ( this.moved == true ) return false;
+		if ( this.hasMoved() == true ) return false;
 		// The king isn't checked
 		if ( Piece.canBeCaptured(this, this.getPosition(), this.getColor() == PieceColor.BLACK ?
 						PieceColor.WHITE : PieceColor.BLACK) != null )
@@ -71,7 +75,7 @@ public class King extends Piece {
 		
 	//Checking if:
 		// The king hasn't moved
-		if ( this.moved == true ) return false;
+		if ( this.hasMoved() == true ) return false;
 		// The king isn't checked
 		if ( Piece.canBeCaptured(this, this.getPosition(), this.getColor() == PieceColor.BLACK ?
 						PieceColor.WHITE : PieceColor.BLACK) != null )
