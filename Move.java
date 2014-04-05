@@ -27,7 +27,7 @@ public class Move {
 		this.endSquare = endSquare;
 	}
 	
-	public Move reverseMove() {
+	public Move reverse() {
 		return new Move(this.endSquare, this.startSquare);
 	}
 
