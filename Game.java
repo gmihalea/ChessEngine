@@ -80,31 +80,46 @@ public class Game {
 	public static String getRandomMove() {
 		Random randGen = new Random();
 		Piece pieceToMove;
+		Move randMove = null;
 
-		int randomIndex;
-		int tries = 100;
-		do { randomIndex = randGen.nextInt(mySet.getAvailablePieces().size());
-			pieceToMove = mySet.getAvailablePieces().get(randomIndex);
-			tries--;
-		} while ( ( PieceType.getType(pieceToMove) == PieceType.KING ? // Repeta cat timp piesa
-						pieceToMove.getCaptureFreeSquares().size() == 0 : // alesa nu are mutari
-						pieceToMove.getValidSquares().size() == 0 ) // posibile, (pt rege: nu are
-					&& tries > 0);							// mutari in care sa nu intre in sah)
-
-		if ( tries == 0 ) return "resign";
-		
-		ArrayList<Square> possibleMoves = ( PieceType.getType(pieceToMove) == PieceType.KING ?
-				pieceToMove.getCaptureFreeSquares() : pieceToMove.getValidSquares() );
-		Move randMove = new Move (	pieceToMove.getPosition(),
-									possibleMoves.get((randGen.nextInt(possibleMoves.size()))));
-		
-		Piece p = randMove.getStartSquare().getPiece();
-		
-		// If the pawn reached the end of the table, he becomes a queen
-		if(PieceType.getType(p) == PieceType.PAWN && 
-		  (randMove.getEndSquare().getNumber() == 1 || randMove.getEndSquare().getNumber() == 8) ) {
-			randMove.setSpecialMove('q');
+		while(true) {
+			int randomIndex;
+			int tries = 100;
+			do { randomIndex = randGen.nextInt(mySet.getAvailablePieces().size());
+				pieceToMove = mySet.getAvailablePieces().get(randomIndex);
+				tries--;
+			} while ( ( PieceType.getType(pieceToMove) == PieceType.KING ? // Repeta cat timp piesa
+							pieceToMove.getCaptureFreeSquares().size() == 0 : // alesa nu are mutari
+							pieceToMove.getValidSquares().size() == 0 ) // posibile, (pt rege: nu are
+						&& tries > 0);							// mutari in care sa nu intre in sah)
+	
+			if ( tries == 0 ) return "resign";
+			
+			ArrayList<Square> possibleMoves = ( PieceType.getType(pieceToMove) == PieceType.KING ?
+					pieceToMove.getCaptureFreeSquares() : pieceToMove.getValidSquares() );
+			randMove = new Move (	pieceToMove.getPosition(),
+										possibleMoves.get((randGen.nextInt(possibleMoves.size()))));
+			
+			int opponentColor = mySet.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+			move(randMove);
+			if(Piece.canBeCaptured(mySet.getAvailablePieces().get(0),
+					mySet.getAvailablePieces().get(0).getPosition(),opponentColor) != null) {
+				undo(randMove);
+				continue;
+			}
+			undo(randMove);
+			
+			Piece p = randMove.getStartSquare().getPiece();
+			
+			// If the pawn reached the end of the table, he becomes a queen
+			if(PieceType.getType(p) == PieceType.PAWN && 
+			  (randMove.getEndSquare().getNumber() == 1 || randMove.getEndSquare().getNumber() == 8) ) {
+				randMove.setSpecialMove('q');
+			}
+			
+			break;
 		}
+		
 		return moveToWinboard(randMove);
 	}
 
@@ -180,7 +195,7 @@ public class Game {
 		Game.move(reverse);
 		
 		// TODO: Pawn promotion ?!
-		switch(PieceType.getType(reverse.getEndSquare().getPiece())) {
+		/*switch(PieceType.getType(reverse.getEndSquare().getPiece())) {
 			case PieceType.PAWN:
 				((Pawn)reverse.getEndSquare().getPiece()).undoMove();
 				((Pawn)reverse.getEndSquare().getPiece()).undoMove();
@@ -196,7 +211,7 @@ public class Game {
 				((Rook)reverse.getEndSquare().getPiece()).undoMove();
 				((Rook)reverse.getEndSquare().getPiece()).undoMove();
 				break;
-		}
+		}*/
 	}
 
 	public static void setDefaultMode() {
