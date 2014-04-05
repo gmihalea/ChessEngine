@@ -150,19 +150,23 @@ public class Game {
 		//	more special moves.
 		switch(PieceType.getType(move.getEndSquare().getPiece())) {
 			case PieceType.PAWN:
-				((Pawn)move.getEndSquare().getPiece()).setMoved(true);
+				((Pawn)move.getEndSquare().getPiece()).makeMove();
 				if ( move.getSpecialMove() != 0 )
 					SpecialMoves.pawnPromotion( (Pawn)(move.getEndSquare().getPiece()), 
 							move.getSpecialMove() );
 				break;
 			case PieceType.KING:
-				((King)move.getEndSquare().getPiece()).setMoved(true);
+				((King)move.getEndSquare().getPiece()).makeMove();
 				break;
 			case PieceType.ROOK:
-				((Rook)move.getEndSquare().getPiece()).setMoved(true);
+				((Rook)move.getEndSquare().getPiece()).makeMove();
 				break;
 		}
 		//history.add(move);
+	}
+	
+	public static void undo(Move move) {
+		
 	}
 
 	public static void setDefaultMode() {
