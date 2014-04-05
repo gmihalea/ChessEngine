@@ -26,6 +26,10 @@ public class Move {
 		this.startSquare = startSquare;
 		this.endSquare = endSquare;
 	}
+	
+	public Move reverseMove() {
+		return new Move(this.endSquare, this.startSquare);
+	}
 
 	public Square getStartSquare() {
 		return this.startSquare;
