@@ -58,7 +58,18 @@ public class Game {
 			move.getStartSquare().getPiece().getColor() != Game.turn || // colour of the turn				
 			move.getStartSquare().getPiece().getValidSquares().indexOf(move.getEndSquare()) < 0 )
 				return "Illegal move: " + moveString + '\n';	//^^ and the end square is a valid move
-
+		
+		/*
+		// Verific ca adversarul nu s-a pus singur in sah
+		move(move);
+		Piece kinginturn = (turn==PieceColor.WHITE ? Board.getWhiteSet().getAvailablePieces().get(0)
+												   : Board.getBlackSet().getAvailablePieces().get(0));
+		int colorNotInTurn = turn==PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
+		
+		if ( Piece.canBeCaptured(kinginturn, kinginturn.getPosition(), colorNotInTurn) != null )
+			return "Illegal move: " + moveString + '\n';
+		*/
+		
 		moveToWinboard(move); // If WinBoard sent a valid move, the move is made
 		history.push(move);
 		if ( Game.mode == GameMode.FORCE) return "";	// We don't move when in FORCE mode
@@ -101,13 +112,13 @@ public class Game {
 										possibleMoves.get((randGen.nextInt(possibleMoves.size()))));
 			
 			int opponentColor = mySet.getColor() == PieceColor.WHITE ? PieceColor.BLACK : PieceColor.WHITE;
-			move(randMove);
+			Piece oldPiece = move(randMove);
 			if(Piece.canBeCaptured(mySet.getAvailablePieces().get(0),
 					mySet.getAvailablePieces().get(0).getPosition(),opponentColor) != null) {
-				undo(randMove);
+				undo(randMove, oldPiece);
 				continue;
 			}
-			undo(randMove);
+			undo(randMove, oldPiece);
 			
 			Piece p = randMove.getStartSquare().getPiece();
 			
@@ -180,20 +191,22 @@ public class Game {
 	
 	/**Moves the piece on the board without changing the turn, and stores it
 	 * in the history*/
-	public static void move(Move move) {
+	public static Piece move(Move move) {
 		
 		// Place the piece on the new spot
+		Piece oldPiece = move.getEndSquare().getPiece();
 		move.getStartSquare().getPiece().setPosition(move.getEndSquare()); // We move our piece
 		move.getEndSquare().setPiece(move.getStartSquare().getPiece()); // on the end square
 		move.getStartSquare().setPiece(null); // And remove it from the initial square
-
+		
+		return oldPiece;
 		//history.add(move);
 	}
 	
-	public static void undo(Move move) {
+	public static void undo(Move move, Piece oldPiece) {
 		Move reverse = move.reverse();
 		Game.move(reverse);
-		
+		if ( oldPiece != null ) oldPiece.getPosition().setPiece(oldPiece);
 		// TODO: Pawn promotion ?!
 		/*switch(PieceType.getType(reverse.getEndSquare().getPiece())) {
 			case PieceType.PAWN:
