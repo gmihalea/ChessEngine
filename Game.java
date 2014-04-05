@@ -147,7 +147,7 @@ public class Game {
 		move.getStartSquare().setPiece(null); // And remove it from the initial square
 		
 		// Mark the piece as moved, if it'a a king, rook, or a pawn, so they can't make any
-		//	more special moves.
+		// more special moves.
 		switch(PieceType.getType(move.getEndSquare().getPiece())) {
 			case PieceType.PAWN:
 				((Pawn)move.getEndSquare().getPiece()).makeMove();
@@ -166,7 +166,27 @@ public class Game {
 	}
 	
 	public static void undo(Move move) {
+		Move reverse = move.reverse();
+		Game.move(reverse);
 		
+		// TODO: Pawn promotion ?!
+		switch(PieceType.getType(reverse.getEndSquare().getPiece())) {
+			case PieceType.PAWN:
+				((Pawn)reverse.getEndSquare().getPiece()).undoMove();
+				((Pawn)reverse.getEndSquare().getPiece()).undoMove();
+				if ( reverse.getSpecialMove() != 0 )
+					SpecialMoves.pawnPromotion( (Pawn)(reverse.getEndSquare().getPiece()), 
+							reverse.getSpecialMove() );
+				break;
+			case PieceType.KING:
+				((King)reverse.getEndSquare().getPiece()).undoMove();
+				((King)reverse.getEndSquare().getPiece()).undoMove();
+				break;
+			case PieceType.ROOK:
+				((Rook)reverse.getEndSquare().getPiece()).undoMove();
+				((Rook)reverse.getEndSquare().getPiece()).undoMove();
+				break;
+		}
 	}
 
 	public static void setDefaultMode() {
